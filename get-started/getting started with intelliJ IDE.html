@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>reveal-md</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./_assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            #### 1. Installing IntelliJ IDEA Community Edition (CE)
+
+1. Download and Install:
+    - Go to the [IntelliJ IDEA website](https://www.jetbrains.com/idea/download/) and download the Community Edition.
+    - Install it on your system by following the installation instructions.
+
+#### 2. Setting Up IntelliJ IDEA for Java Development
+
+1. Open IntelliJ IDEA:
+    - Launch IntelliJ IDEA after installation.
+
+2. Create a New Java Project:
+    - Click on `New Project` from the welcome screen.
+    - Select `Java` from the list of project types.
+    - Ensure the Project SDK is set to the JDK you installed earlier. If not, click `New...` and navigate to the JDK installation directory.
+    - Click `Next`, then `Finish` to create the project.
+
+3. Write Java Code:
+    - In the Project view, right-click the `src` folder, select `New` > `Java Class`, and name it `Main`.
+    - Add the following code to `Main.java`:
+      ```java
+      public class Main {
+          public static void main(String[] args) {
+              System.out.println("Hello, World!");
+          }
+      }
+      ```
+
+#### 3. Running Your Java Project
+
+1. Run the Java Program:
+    - Right-click `Main.java` in the Project view and select `Run 'Main.main()'`.
+    - Alternatively, you can click the green play button in the top-right corner of the editor.
+
+2. View Output:
+    - The output will be displayed in the Run window at the bottom of the IDE.
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"fade","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"zoomKey":"alt","zoomLevel":2,"_":["get-started"],"static":"../cocs-2436-slides/get-started"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) { mermaid.init(mermaidOptions, '.stack.present>.present pre code.mermaid'); };
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>

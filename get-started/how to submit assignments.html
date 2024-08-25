@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>reveal-md</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./_assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            ### Submitting Your Assignment
+
+1. **Ensure Your Project is Complete:**
+    - Make sure all your Java classes and packages are correctly organized and your code is well-documented.
+
+2. **Naming Your Project:**
+    - Incorporate your nickname into the project name. This helps in identifying your submission easily.
+    - Example: If your nickname is `jdoe` and the assignment is `assignment_1`, name your project `assignment_1_jdoe`.
+
+3. **Creating the Zip File:**
+    - Locate the Project Folder in your computer.
+    - Ensure the project is closed in IntelliJ to prevent any files from being locked or in use during the zipping process.
+    - Before zipping, delete unnecessary files like target or build directories (if applicable). This keeps the submission clean.
+    - Right-click on your project folder.
+    - Select `Compress` or `Zip` to create a zip file of your project.
+    - Name the zip file using the following convention: `<assignment_number>_<nickname>.zip`.
+    - Example: For the `assignment_1` assignment, if your nickname is `jdoe`, name the zip file `assignment_1_jdoe.zip`.
+
+4. **Submitting the Zip File:**
+    - Submit the zip file through the canvas portal
+    - Ensure your submission is one project, not several projects in one zip file.
+
+### Example
+
+For the first assignment, if your nickname is `jdoe` and the assignment name is `assignment_1`:
+- **Project Name:** `assignment_1_jdoe`
+- **Zip File Name:** `assignment_1_jdoe.zip`
+
+
+### Alternative, Github Repository Submission (Optional) 
+If you prefer, you can submit your assignment by providing a link to your Git repository. Ensure that the repository is public so that it can be accessed by the course instructors for grading. Here is the project you can fork from https://github.com/collin-cosc-2436/cybernetic-organs-system
+
+```bash
+timestamp=$(curl -s https://api.github.com/repos/collin-cosc-2436/intro-to-git-and-github-rbhochhi/commits | jq -r '.[0].commit.committer.date')
+cst_time=$(date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$timestamp" +"%Y-%m-%d %H:%M:%S CST")
+echo "CST Time: $cst_time"
+```
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"fade","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"zoomKey":"alt","zoomLevel":2,"_":["get-started"],"static":"../cocs-2436-slides/get-started"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) { mermaid.init(mermaidOptions, '.stack.present>.present pre code.mermaid'); };
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>

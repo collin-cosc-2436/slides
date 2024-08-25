@@ -1,0 +1,46 @@
+body {
+  font-size: 8pt;
+  line-height: 1;
+  margin: 0;
+}
+
+section {
+  margin: 0;
+  padding: 0;
+  page-break-inside: avoid; /* Prevents page breaks within sections */
+  page-break-before: auto; /* Ensures pages break only where necessary */
+}
+
+p, h1, h2, h3, h4, h5, h6, ul, ol {
+  page-break-inside: avoid; /* Prevents page breaks within paragraphs and lists */
+}
+
+p{
+    text-align: justify;
+}
+
+h4 {
+    text-align: left;
+    font-size: 0.5em;
+}
+
+.float-left {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.float-right {
+    float: right;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.reveal .fragment {
+    color: darkgreen; /* Set the text color to dark green */
+}
+
+img[alt=img] { width: 500px; length: 500px; }
+ul, ol {
+    text-align: left;
+}
