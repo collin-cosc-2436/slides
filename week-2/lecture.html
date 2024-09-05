@@ -26,12 +26,12 @@
 
 ### Weekly Structure:
 
-- **Lecture with Coding Demo**: 60-75 minutes
-- **Quiz/Knowledge Check**: 15-20 minutes
-- **Short Break**: 5-10 minutes
-- **Labs**: 60-90 minutes
-- **Group Discussions/Peer Reviews**: 20-30 minutes
-- **Recap and Q&A Session**: 15-20 minutes
+- Lecture with Coding Demo
+- Quiz/Knowledge Check
+- Short Break
+- Labs
+- Group Discussions
+- Recap and Q&A Session
 
 ---
 
@@ -90,7 +90,7 @@ For example:
 - *Easy Updates*: Just like how you can easily add or remove a book from a well-organized bookshelf, data structures
   help in efficiently adding, removing, or updating information.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/bum_19loj9A?si=6_i1zuFKh8ZsMXfq&start=15&end=470&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen?start=15&end=470" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/bum_19loj9A?si=6_i1zuFKh8ZsMXfq&start=15&end=470&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 
@@ -134,7 +134,7 @@ For example:
 
 ---
 
-## Understanding Arrays
+## Understanding Arrays and ArrayList
 
 ---
 
@@ -213,46 +213,36 @@ For example:
 
 ### Array Operations
 
-- Accessing Array Elements
-  ```java
-  //Use the index to access specific elements:
-  int firstNumber = numbers[0];  // Access the first element
-  ```
-  ```java
-  //Iterating over an array:  
-  for (int i = 0; i < numbers.length; i++) {
-      System.out.println(numbers[i]);
-  }
-  ```
-- Searching for an element:
+Accessing Array Elements
+```java
+//Use the index to access specific elements:
+int firstNumber = numbers[0];  // Access the first element
 
-  ```java
+//Iterating over an array:  
+for (int i = 0; i < numbers.length; i++) {
+        System.out.println(numbers[i]);
+}
+```
+
+Searching for an element:
+
+```java
   int searchValue = 30;
   boolean found = false;
   for (int i = 0; i < numbers.length; i++) {
-      if (numbers[i] == searchValue) {
-          found = true;
-          break;
-      }
+    if (numbers[i] == searchValue) {
+      found = true;
+        break;
+    }
   }
-  ```  
+```  
 
----
-
-- *Sorting an array*:
-    ```java
+Sorting an array:
+```java
     Arrays.sort(numbers);
-    ```
-
-- *Array Length*
-  - Use the `.length` property to determine the size of the array:
-    ```java
-    int size = numbers.length;
-    ```
+```
 
 ---
-
-### Introduction to ArrayList
 
 #### What is an ArrayList?
 - An `ArrayList` is a resizable array, part of Java’s `java.util` package.
@@ -272,19 +262,19 @@ For example:
 
 ---
 
-### Common Operations with ArrayLists 
-- Adding Elements
-    ```java
-    names.add("Charlie");
-    ```
-- Accessing Elements
-   ```java
-    String name = names.get(0);  // Retrieves the first element
-   ```
-- Removing Elements
-  ```java
+### Common Operations with ArrayLists
+Adding Elements
+```java
+  names.add("Charlie");
+```
+Accessing Elements
+```java
+  String name = names.get(0);  // Retrieves the first element
+```
+Removing Elements
+```java
   names.remove("Alice");
-  ```
+```
 
 ---
 
@@ -571,7 +561,10 @@ For example:
       const mermaidOptions = extend({ startOnLoad: false }, {});
       mermaid.startOnLoad = false;
       mermaid.initialize(mermaidOptions);
-      const cb = function (event) { mermaid.init(mermaidOptions, '.stack.present>.present pre code.mermaid'); };
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
       Reveal.addEventListener('ready', cb);
       Reveal.addEventListener('slidetransitionend', cb);
     </script>
