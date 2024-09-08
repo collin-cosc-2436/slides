@@ -4,6 +4,10 @@ body {
   margin: 0;
 }
 
+.reveal section {
+    font-size: 0.8em; /* Adjust font size for the content in each slide */
+}
+
 section {
   margin: 0;
   padding: 0;
@@ -37,11 +41,21 @@ h4 {
 }
 
 .reveal .fragment {
-    color: darkgreen; /* Set the text color to dark green */
+    color: green; /* Set the text color to dark green */
 }
 
 img[alt=img] { width: 500px; length: 500px; float: right; margin-right: 20px; margin-bottom: 10px; }
 
-ul, ol {
-    text-align: left;
+
+em {
+    font-style: italic;
+    font-weight: bold;
+    color: blue;
 }
+
+
+.reveal ul {
+    display: block;
+}
+
+
