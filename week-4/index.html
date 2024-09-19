@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./_assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 4: Sorting, Searching, and Algorithm Analysis
+
+---
+
+## Objectives
+ 
+1. What are the basic principles of sorting and searching algorithms?  
+2. Why is algorithm analysis important in computer science?  
+3. Empirical vs. Theoretical Analysis of algorithms.
+4. How can Big O notation be used to analyze the efficiency of algorithms?  
+5. What are the differences in time complexities between various sorting algorithms?  
+6. How do searching algorithms like linear search and binary search compare in terms of efficiency?  
+
+---
+
+### Analyzing Algorithms
+
+_Traveling from one side to another side of a city_ 
+
+   - Method 1: *Walking*,  It’s straightforward and doesn’t require any special equipment or arrangements. But It’s slow and becomes increasingly impractical as the distance grows. The effort (energy) and time it takes to walk long distances are substantial. You call it **Inefficient** and Impractical. 
+   - Method 2: *Subway*,  It’s much faster than walking. The subway moves quickly through the city, avoiding traffic. Practical way to travel as distance grows. you call it **Efficient** and Practical way to travel.
+
+_Sorting Books at a Library_  
+
+   - Method 1:Sorting by Hand, Simple and easy to understand but time-consuming and **Inefficient**.
+   - Method 2:Using a Conveyor Belt and Barcodes, **Efficient** and Scalable way to sort books as the library grows. 
+
+---
+
+_Why Analysing Algorithm is important_ : 
+
+   - **Efficiency**: Helps understand if the algorithm is practical in real-world applications.
+   - **Resource Management**: Algorithms that use fewer resources (time, memory) are often preferred, especially in environments where resources are limited, like embedded systems or mobile devices.
+   - **Scalability**: Knowing how an algorithm scales with input size helps you predict its behavior with larger data sets.
+   - Means, finding the **Efficiency** of an algorithm aka finding the <u>**Complexity**</u> of an algorithm.
+   - Knowing the amount of resources (like <em>time==>computation(CPU)</em> or <em>space==>memory</em>) require for an algorithm to execute the operation for a given input size, n.
+
+---
+
+### what is Big-O Notation?  
+
+   - It’s a mathematical notation used to describe the upper bound of an algorithm's complexity. Worst case scenario for time or space.     
+
+   - Describes the asymptotic behavior of a function, not its exact value. eg. 𝑓(𝑛)=3𝑛^2+5𝑛+20   
+
+   - Big-O, commonly referred to as “Order of” or "Oh of ..."  
+
+_Why is Big O Notation important?_:  
+   - It helps compare the efficiency of different algorithms, especially when dealing with large datasets.  
+  - Knowing the Big O helps in selecting the most appropriate algorithm for a given problem.
+  - Enables developers to optimize code and improve overall performance.  
+
+---
+
+### Types of Complexity. 
+
+1. _Space Complexity_: Measures how the amount of memory used by an algorithm grows with the size of the input.
+    - **Common Examples**:  
+      - O(1): Constant space – the algorithm uses the same amount of memory regardless of input size.  
+      - O(n): Linear space – memory usage grows linearly with input size.  
+
+2. _Time Complexity_: Measures how the runtime of an algorithm grows with the size of the input. 
+    - **Common Examples**:  
+        - **O(1)**: Constant time – the algorithm takes the same amount of time regardless of input size.  
+        - **O(n)**: Linear time – time grows linearly with input size.  
+        - **O(n^2)**: Quadratic time – time grows proportionally to the square of the input size.  
+
+---
+
+Usually the primary focus is _Time Complexity_, especially in contexts where the speed of processing is crucial
+![img.png](assets/img.png)
+
+---
+
+### Empirical vs. Theoretical Analysis
+
+#### Theoretical Analysis
+
+- Theoretical analysis is the study of an algorithm's performance based on mathematical models.
+- It focuses on how the algorithm behaves as the size of the input increases.
+- It uses Big O Notation to estimate the upper bound of the running time or memory usage.
+- Steps in Theoretical Analysis:
+   - Identify the basic operations in the algorithm (e.g., comparisons, swaps).
+   - Count how many times these operations are performed based on the input size 𝑛.
+   - Express this in Big O notation to generalize the performance.
+
+---
+
+### Example of Theoretical Analysis
+
+Let’s say we have the **Bubble Sort** algorithm, and we want to determine its time complexity theoretically.
+
+In Bubble Sort, you have two nested loops:
+- The outer loop runs \(n\) times (for each element).
+- The inner loop runs \(n-i\) times (where \(i\) increases with each iteration).
+
+Thus, for each pair of elements, you make a comparison and possibly a swap. In the worst case, this means approximately \(n^2\) comparisons and swaps. So, the **theoretical time complexity** is \(O(n^2)\).
+
+---
+
+### Empirical Analysis
+- Empirical analysis involves actually running the algorithm on different inputs and measuring its performance, typically in terms of time or memory usage.
+- This type of analysis gives you a concrete understanding of how the algorithm performs in the real world, which can sometimes differ from theoretical expectations due to factors like hardware, caching, or system load.
+- Steps in Empirical Analysis:
+   - Implement the algorithm.
+   - Choose different input sizes (e.g., arrays of 100, 500, 1000 elements).
+   - Run the algorithm multiple times and record the time taken.
+   - Compare the empirical results with the theoretical predictions.
+
+---
+
+### Example of Empirical Analysis
+Let’s run **Bubble Sort** on arrays of increasing sizes:
+- For an array of 100 elements: 5 ms.
+- For an array of 500 elements: 48 ms.
+- For an array of 1000 elements: 192 ms.
+- For an array of 10000 elements: 2000 ms.
+
+By running these tests, you get a sense of how the algorithm performs in practice. Sometimes, the empirical time will be faster or slower than the theoretical time due to various factors like system architecture or optimizations in the hardware.
+
+---
+
+#### Simple Algorithms: Linear Search Algorithm.
+It is the simplest search algorithm. It checks each element in the array one by one until the target value is found.
+   
+```java
+int linearSearch(int arr[], int x) {
+    // Get the length of the array
+    int n = arr.length;
+    // Loop through each element in the array
+    for (int i = 0; i < n; i++) {
+      // Check if the current element is equal to the target value
+      if (arr[i] == x) {
+        // Return the index of the target value.
+        return i;
+      }
+    }
+    return -1;
+}
+```   
+
+* It is not efficient for large datasets because it has to check every element in the array.
+* <em>Complexity:</em> ?? <span class="fragment"> O(n) - Linear time complexity. </span>
+
+---
+
+#### Binary Search
+- Binary search is a much more efficient algorithm, but it requires the array to be sorted.
+- It works by repeatedly dividing the search interval _in half. If the value of the search key is less than the item in the middle of the interval, the search continues in the lower half, or if it is greater, in the upper half_.
+
+```java
+   int binarySearch(int[] arr, int x) {
+      // Initialize the left and right indices
+      int l = 0, r = arr.length - 1;
+      // Loop until the search interval is valid
+      while (l <= r) {
+         // Calculate the middle index
+         int m = l + (r - l) / 2;
+         // Check if the target value is at the middle index
+         if (arr[m] == x)
+            // Return the index if the target value is found
+            return m;
+         // If the target value is greater than the middle element
+         if (arr[m] < x)
+            // Ignore the left half by updating the left index
+            l = m + 1;
+         else
+            // Ignore the right half by updating the right index
+            r = m - 1;
+      }
+      // Return -1 if the target value is not found
+      return -1;
+   }
+```
+
+Time Complexity:?? <span class="fragment"> O(log n) <br/>  
+Binary search is much more efficient than linear search, especially for large datasets, because it reduces the search space by half with each iteration.
+</span>
+
+---
+
+### Sorting Algorithms
+
+- Sorting is one of the most fundamental tasks in computer science. They provide a solid foundation for understanding how to <em>organize and manipulate data efficiently</em>.  
+- Sorting involves arranging data in a particular order (usually ascending or descending).  
+- Sorting is a <em>ubiquitous operation</em> to Core of Many Applications. 
+- It's <em>essential for tasks like searching, database indexing, and data visualization</em>.  
+- They are used in various applications, from <em>simple database queries to complex machine learning models</em>.  
+- Sorting algorithms provide a strong foundation for <em>problem-solving and advanced topics</em> in computer science. 
+
+---
+
+#### Bubble Sort
+
+- Bubble sort is one of <em> the simplest sorting algorithms</em>. 
+- It works by <em>repeatedly stepping through the list to be sorted, comparing each pair of adjacent items and swapping them if they are in the wrong order</em>. 
+
+```mermaid 
+flowchart LR
+    A(Unsorted Array: 5, 1, 3, 6, 4, 2) --> B{First Pass}
+    B --> C{Compare 5 and 1}
+    C --> D[Swap: 1, 5]
+    D --> E{Compare 5 and 3}
+    E --> F[Swap: 3, 5]
+    F --> G{Compare 5 and 6}
+    G --> H{No Swap}
+    H --> I{Compare 6 and 4}
+    I --> J[Swap: 4, 6]
+    J --> K{Compare 6 and 2}
+    K --> L[Swap: 2, 6]
+    L --> M{Second Pass}
+    M --> N{Compare 1 and 3}
+    N --> O{No Swap}
+    O --> P{Compare 3 and 5}
+    P --> Q{No Swap}
+    Q --> R{Compare 5 and 4}
+    R --> S[Swap: 4, 5]
+    S --> T{Compare 5 and 2}
+    T --> U[Swap: 2, 5]
+    U --> V{Third Pass}
+    V --> W{Compare 1 and 3}
+    W --> X{No Swap}
+    X --> Y{Compare 3 and 4}
+    Y --> Z{No Swap}
+    Z --> AA{Compare 4 and 2}
+    AA --> AB[Swap: 2, 4]
+    AB --> AC{Fourth Pass}
+    AC --> AD{Compare 1 and 3}
+    AD --> AE{No Swap}
+    AE --> AF{Compare 3 and 2}
+    AF --> AG[Swap: 2, 3]
+    AG --> AH{Fifth Pass}
+    AH --> AI{Compare 1 and 2}
+    AI --> AJ{No Swap}
+    AJ --> AK{Compare 2 and 3}
+    AK --> AL{No Swap}
+    AL --> AM(Sorted Array: 1, 2, 3, 4, 5, 6)
+
+```
+
+```java
+  private static void bubbleSort(int[] arr) {
+    // Loop through each element in the array
+    for (int i = 0; i < arr.length; i++) {
+      // Loop through the array up to the last unsorted element
+      for (int j = 0; j < arr.length - i - 1; j++) {
+      // If the current element is greater than the next element
+      if (arr[j] > arr[j + 1]) {
+        // Swap the elements
+        int temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+      }
+    }
+  }
+```
+Time Complexity: <span class="fragment">O(n²) <br/>
+Bubble sort is not the most efficient algorithm, especially for large datasets, due to its quadratic time complexity.</span>
+
+---
+
+#### Selection Sort
+
+- Selection sort is another simple sorting algorithm. 
+- It works by dividing the input list into two parts: the sorted part at the left end and the unsorted part at the right end. 
+- Initially, the sorted part is empty, and the unsorted part is the entire list. The algorithm _repeatedly selects the smallest (or largest, depending on the order) element from the unsorted part and swaps it with the leftmost unsorted element_, moving the boundary of the sorted part one element to the right.
+
+```java
+void selectionSort(int[] arr) {
+   // Get the length of the array
+   int n = arr.length;
+   // Loop through each element in the array
+   for (int i = 0; i < n-1; i++) {
+     // Assume the current element is the minimum
+     int min_idx = i;
+     // Loop through the remaining elements to find the actual minimum
+     for (int j = i+1; j < n; j++)
+       // If a smaller element is found, update the minimum index
+       if (arr[j] < arr[min_idx])
+         min_idx = j;
+         // Swap the found minimum element with the current element
+         int temp = arr[min_idx];
+         arr[min_idx] = arr[i];
+         arr[i] = temp;
+   }
+}
+```
+
+Time Complexity:?? <span class="fragment">O(n²)<br/> 
+Selection sort, like bubble sort, has a quadratic time complexity, making it inefficient for large datasets.</span>
+
+---
+
+#### Insertion Sort
+- Insertion sort builds the final sorted array one item at a time. 
+- It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or mergesort.
+
+```java
+void insertionSort(int[] arr) {
+   // Get the length of the array
+   int n = arr.length;
+   // Loop through each element in the array starting from the second element
+   for (int i = 1; i < n; ++i) {
+      // Store the current element as the key
+      int key = arr[i];
+      // Initialize j to the index before the current element
+      int j = i - 1;
+      // Move elements of arr[0..i-1], that are greater than key, to one position ahead of their current position
+      while (j >= 0 && arr[j] > key) {
+         // Shift the element one position to the right
+         arr[j + 1] = arr[j];
+         // Move to the previous element
+         j = j - 1;
+      }
+      // Place the key in its correct position
+      arr[j + 1] = key;
+   }
+}
+
+```
+
+Time Complexity:??<span class="fragment"> O(n²)<br/> 
+Although insertion sort is also a quadratic time complexity algorithm, it is more efficient than bubble sort and selection sort for small datasets.</span>
+
+---
+
+#### Merge Sort
+- Merge sort is a divide-and-conquer algorithm that divides the input array into two halves, sorts them, and then merges the sorted halves.
+- It is more efficient on large lists compared to simpler algorithms like insertion sort, bubble sort, and selection sort.  
+
+    <iframe width="300" height="150" src="https://www.youtube.com/embed/-3u1C1URNZY?si=m2osjt_m9N-IfWUW&start=223&end=331&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+```java
+void mergeSort(int[] arr, int l, int r) {
+    // Check if the left index is less than the right index
+    if (l < r) {
+        // Find the middle point
+        int m = l + (r - l) / 2;
+
+        // Recursively sort the first half
+        mergeSort(arr, l, m);
+        // Recursively sort the second half
+        mergeSort(arr, m + 1, r);
+
+        // Merge the sorted halves
+        merge(arr, l, m, r);
+    }
+}
+
+void merge(int[] arr, int l, int m, int r) {
+    // Find sizes of two subarrays to be merged
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temporary arrays
+    int[] L = new int[n1];
+    int[] R = new int[n2];
+
+    // Copy data to temporary arrays
+    for (int i = 0; i < n1; ++i)
+        L[i] = arr[l + i];
+    for (int j = 0; j < n2; ++j)
+        R[j] = arr[m + 1 + j];
+
+    // Merge the temporary arrays
+
+    // Initial indexes of first and second subarrays
+    int i = 0, j = 0;
+
+    // Initial index of merged sub array 
+    int k = l;
+    while (i < n1 && j < n2) {
+      if (L[i] <= R[j]) {
+        arr[k] = L[i];
+        i++;
+      } else {
+        arr[k] = R[j];
+        j++;
+     }
+     k++;
+    }
+
+    // Copy remaining elements of L[] if any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy remaining elements of R[] if any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+```
+Time Complexity:??<span class="fragment"> O(n log n) <br/>Merge sort is more efficient than simpler algorithms like bubble sort, selection sort, and insertion sort, especially for large datasets.</span>
+
+---
+
+### Knowledge Check
+
+1. What is the primary focus when analyzing algorithms?
+   - A) Space Complexity
+   - B) Time Complexity <span class="fragment">&#x2714;</span>
+   - C) Code Readability
+   - D) Memory Usage
+
+2. Which sorting algorithm is considered the most efficient for large datasets?
+   - A) Bubble Sort
+   - B) Selection Sort
+   - C) Insertion Sort
+   - D) Merge Sort <span class="fragment">&#x2714;</span>
+
+3. What is the time complexity of Bubble Sort?
+   - A) O(n)
+   - B) O(n log n)
+   - C) O(n²) <span class="fragment">&#x2714;</span>
+   - D) O(log n)
+
+---
+
+4. Which search algorithm requires the array to be sorted?
+   - A) Linear Search
+   - B) Binary Search <span class="fragment">&#x2714;</span>
+   - C) Depth-First Search
+   - D) Breadth-First Search
+
+5. What is the time complexity of Binary Search?
+   - A) O(n)
+   - B) O(n log n)
+   - C) O(n²)
+   - D) O(log n) <span class="fragment">&#x2714;</span>
+
+6. Which of the following is a divide-and-conquer algorithm?
+   - A) Bubble Sort
+   - B) Selection Sort
+   - C) Insertion Sort
+   - D) Merge Sort <span class="fragment">&#x2714;</span>
+
+---
+
+7. What is the space complexity of an algorithm that uses the same amount of memory regardless of input size?
+   - A) O(1) <span class="fragment">&#x2714;</span>
+   - B) O(n)
+   - C) O(n²)
+   - D) O(log n)
+
+8. Which sorting algorithm repeatedly steps through the list, comparing each pair of adjacent items and swapping them if they are in the wrong order?
+   - A) Bubble Sort <span class="fragment">&#x2714;</span>
+   - B) Selection Sort
+   - C) Insertion Sort
+   - D) Merge Sort
+
+9. What is the time complexity of Selection Sort?
+   - A) O(n)
+   - B) O(n log n)
+   - C) O(n²) <span class="fragment">&#x2714;</span>
+   - D) O(log n)
+
+---
+
+10. Which algorithm builds the final sorted array one item at a time?
+  - A) Bubble Sort.
+  - B) Selection Sort.
+  - C) Insertion Sort.  <span class="fragment">&#x2714;</span>
+  - D) Merge Sort.
+
+11. Binary search can be used on unsorted arrays. 
+  - False <span class="fragment">&#x2714;</span>
+  - True
+
+12. Merge sort has a time complexity of O(n log n).
+  - False
+  - True <span class="fragment">&#x2714;</span>
+
+13. Bubble sort is more efficient than merge sort for large datasets.
+  - False <span class="fragment">&#x2714;</span>
+  - True
+
+14. Insertion sort is more efficient than bubble sort for small datasets.
+  - False
+  - True <span class="fragment">&#x2714;</span>
+
+---
+
+## LABS
+-----
+resources: 
+1. Text Book: Chapter 16.  
+2. https://www.geeksforgeeks.org/analysis-algorithms-big-o-analysis
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"zoomKey":"alt","zoomLevel":2,"_":["week-4/lecture.md"],"static":"../cocs-2436-slides/week-4","static-dirs":"week-4/assets","staticDirs":"week-4/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
