@@ -53,9 +53,23 @@ em {
     color: blue;
 }
 
-
-.reveal ul {
+.reveal ul, .reveal ol {
+    text-align: left;
     display: block;
+    margin-left: 20px; /* Adjust this value as needed */
 }
 
+table {
+    width: 100%;
+    margin: 20px; /* Adjust this value as needed */
+    border-collapse: collapse; /* Optional: to remove space between table cells */
+}
 
+table th, table td {
+    padding: 10px; /* Adjust this value as needed */
+    border: 1px solid #ddd; /* Optional: to add borders to table cells */
+}
+
+.reveal pre code {
+    max-height: 700px;
+}
