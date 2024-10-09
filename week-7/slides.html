@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 7: Java Collections Framework
+
+## Objectives
+
+1. Understand the Java Collections Framework
+2. Learn about Lists, Sets, and Maps
+3. Explore utility methods in the Collections class
+4. Introduce the Stream API for processing collections
+
+---
+
+## Java Collections Framework Overview
+
+- A unified architecture for representing and manipulating collections
+- Reduces programming effort and increases program speed and quality
+- Core interfaces: Collection, Set, List, Queue, and Map
+- Implementation classes: ArrayList, LinkedList, HashSet, TreeSet, HashMap, TreeMap, etc.
+- Utility class: Collections
+
+---
+
+## Lists
+
+- Ordered collection (sequence)
+- Elements can be accessed by their integer index
+- Allows duplicate elements
+- Main implementations:
+    - ArrayList: Dynamic array implementation
+    - LinkedList: Doubly-linked list implementation
+
+---
+
+## Sets
+
+- Collection that cannot contain duplicate elements
+- Models the mathematical set abstraction
+- Main implementations:
+    - HashSet: Uses a hash table for storage
+    - TreeSet: Uses a tree for storage, elements are ordered
+    - LinkedHashSet: Hash table with linked list, preserves insertion order
+
+---
+
+## Maps
+
+- Object that maps keys to values
+- Cannot contain duplicate keys
+- Each key can map to at most one value
+- Main implementations:
+    - HashMap: Uses a hash table for storage
+    - TreeMap: Uses a tree for storage, keys are ordered
+    - LinkedHashMap: Hash table with linked list, preserves insertion order
+
+---
+
+## Utility Methods in Collections Class
+
+- Collections class provides static methods to operate on or return collections
+- Common methods:
+    - sort(): Sorts a List
+    - binarySearch(): Searches for an element in a sorted List
+    - reverse(): Reverses the order of elements in a List
+    - shuffle(): Randomly permutes a List
+    - min() and max(): Returns the minimum or maximum element
+
+---
+
+## Introduction to Stream API
+
+- Introduced in Java 8
+- Allows functional-style operations on streams of elements
+- A stream is a sequence of elements supporting sequential and parallel aggregate operations
+- Key features:
+    - Pipeline processing
+    - Internal iteration
+    - Lazy evaluation
+    - Parallelism
+
+---
+
+## Stream API Operations
+
+- Two types of operations:
+    1. Intermediate operations: Return a new stream (e.g., filter, map, sorted)
+    2. Terminal operations: Produce a result or side-effect (e.g., forEach, collect, reduce)
+- Example:
+  
+```java
+    List<String> myList = Arrays.asList("a1", "a2", "b1", "c2", "c1");
+    myList.stream()
+          .filter(s -> s.startsWith("c"))
+          .map(String::toUpperCase)
+          .sorted()
+          .forEach(System.out::println);
+ ```
+
+---
+
+## Knowledge Check
+
+http://quiz.codewithme.com
+
+---
+
+## Lab Exercise
+
+Implement a program that demonstrates the use of various collection types and the Stream API to process and analyze data.
+
+---
+
+## Additional Resources
+
+- Java Documentation: [Java Collections Framework](https://docs.oracle.com/javase/8/docs/technotes/guides/collections/)
+- Tutorial: [Java 8 Streams Tutorial](https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/)
+```
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"zoomKey":"alt","zoomLevel":2,"_":["week-7/slides.md"],"static":"../cocs-2436-slides/week-7","static-dirs":"week-7/assets","staticDirs":"week-7/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
