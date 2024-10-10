@@ -39,14 +39,42 @@
 
 ---
 
+## Collections vs Arrays:
+
+| Feature| Collections| Arrays|
+|--------------|--------------------------------------------------|---------------------------------------------|
+| Flexibility| More flexible and provide additional functionality | Fixed size and less flexible|
+| Storage| Can store objects  | Can store primitives    |
+| Resizing| Can be resized dynamically   | Have a fixed size  |
+| Operations   | Provide more operations like add, remove, and search | Efficient for simple operations like access and iteration |
+| Preference   | Preferred in most cases due to flexibility and functionality | Useful for simple data structures and performance-critical code |
+| Part of | Java Collections Framework   | Basic language feature  |
+
+---
+
+![Java Collections Framework Hierarchy](assets/img.png)
+
+---
+
+## ADTs
+
+- Does not dictate how the data is organized
+- Dictates the operations that can be performed on the data
+- Concrete data structure is usually a concrete class
+- Abstract Data Type is usually an interface
+
+---
+
 ## Lists
 
+- is a Abstract Data Type (ADT)
 - Ordered collection (sequence)
 - Elements can be accessed by their integer index
 - Allows duplicate elements
 - Main implementations:
     - ArrayList: Dynamic array implementation
     - LinkedList: Doubly-linked list implementation
+
 
 ---
 
@@ -82,6 +110,30 @@
     - reverse(): Reverses the order of elements in a List
     - shuffle(): Randomly permutes a List
     - min() and max(): Returns the minimum or maximum element
+-  Benefits of Using Java Collections Framework
+    - Consistent API: All collections support operations like add, remove, and clear.
+    - Reduces effort: Eliminates the need to write data structures from scratch.
+    - Increases program speed and quality: Implementations are high-performance and well-tested.
+    - Allows interoperability: Collections can be easily converted from one type to another.
+    - Encourages software reuse: Algorithms are written in terms of interfaces, not implementations.
+
+---
+
+## Comparable Vs Comparator   
+
+| Feature | Comparable | Comparator |
+|---------|------------|------------|
+| Interface | `java.lang.Comparable` | `java.util.Comparator` |
+| Method to implement | `compareTo(T o)` | `compare(T o1, T o2)` |
+| Part of class | Yes, implemented by the class being compared | No, separate class or lambda |
+| Number of sort sequences | Single, natural ordering | Multiple, flexible orderings |
+| Usage with `Collections.sort()` | `Collections.sort(List<T>)` | `Collections.sort(List<T>, Comparator<T>)` |
+| Usage with `Arrays.sort()` | `Arrays.sort(T[])` | `Arrays.sort(T[], Comparator<T>)` |
+| When to use | When there's a single, natural ordering | When multiple orderings are needed or can't modify the original class |
+| Example implementation | `class Student implements Comparable<Student> { ... }` | `class StudentAgeComparator implements Comparator<Student> { ... }` |
+| Lambda expression support | N/A | `(s1, s2) -> s1.getAge() - s2.getAge()` |
+| Method reference support | N/A | `Comparator.comparing(Student::getName)` |
+
 
 ---
 
@@ -97,6 +149,22 @@
     - Parallelism
 
 ---
+
+## Functional Programming:
+- Treats computation as the evaluation of mathematical functions.
+- Avoids changing state and mutable data.
+- Examples: Haskell, Lisp, Scala
+- Used in: Data processing, parallel computing, AI
+- Characteristics: Immutability, first-class functions, recursion
+
+### Benefits of Functional Programming:
+- Easier to debug and test (pure functions)  
+- Better support for parallel/concurrent programming  
+- More predictable code behavior  
+- Often more concise and expressive  
+
+---
+
 
 ## Stream API Operations
 
