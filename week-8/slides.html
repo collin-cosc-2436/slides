@@ -36,8 +36,10 @@
 - Elements are stored in nodes
 - Each node contains:
     - Data
-    - Reference (link) to the next node
+    - Reference \(link\) to the next node
 - Last node points to null
+
+![img.png](assets/linkedList.png)
 
 ---
 
@@ -48,13 +50,34 @@
 - Flexible memory allocation
 - Foundation for other data structures
 
+Array
+![img.png](assets/array.png)
+
+Linked List
+![img.png](assets/linkedList.png)
+---
+
+# Linked Lists vs ArrayLists vs Arrays
+
+| Aspect| Linked List | ArrayList     | Array|
+|--------------------|--------------------------|----------------------------|-------------------|
+| Memory allocation  | Dynamic     | Dynamic       | Static            |
+| Insertion/Deletion | O(1) at beginning/end    | O(n) for shifting          | O(n) for shifting |
+| Random access      | O(n)        | O(1)          | O(1) |
+| Memory usage       | Higher (extra for links) | Higher (resizing overhead) | Lower|
+
+
 ---
 
 ## Types of Linked Lists
 
-1. Singly Linked List
-2. Doubly Linked List
-3. Circular Linked List
+
+| Type |   |
+|------|--------------------------------|
+| Singly Linked List | ![img.png](assets/singly.png)  |
+| Doubly Linked List | ![img_1.png](assets/doubly.png) |
+| Circular Linked List | ![img_2.png](assets/circular.png) |
+
 
 ---
 
@@ -83,8 +106,7 @@ class SinglyLinkedList {
     }
 }
 ```
-
-
+![img.png](assets/singly.png)
 
 ---
 
@@ -116,6 +138,7 @@ class DoublyLinkedList {
     }
 }
 ```
+![img_1.png](assets/doubly.png)
 
 ---
 
@@ -135,6 +158,7 @@ class Node {
     }
 }    
 ```
+![img_2.png](assets/circular.png)
 
 ---
 
@@ -209,24 +233,13 @@ public void traverse() {
 
 ---
 
-# Linked Lists vs ArrayLists vs Arrays
-
-| Aspect| Linked List | ArrayList     | Array|
-|--------------------|--------------------------|----------------------------|-------------------|
-| Memory allocation  | Dynamic     | Dynamic       | Static            |
-| Insertion/Deletion | O(1) at beginning/end    | O(n) for shifting          | O(n) for shifting |
-| Random access      | O(n)        | O(1)          | O(1) |
-| Memory usage       | Higher (extra for links) | Higher (resizing overhead) | Lower|
-
-
----
-
 ## Recursion in Linked Lists
 
 - Elegant and concise solutions
 - Natural fit for linked list structure
 - Useful for complex operations
 
+---
 
 #### Recursive Traversal
 
@@ -236,7 +249,19 @@ public void printListRecursive(Node head) {
     System.out.print(head.data + " -> ");
     printListRecursive(head.next);
 }
+//----------
+public void printListIterative(Node head) {
+    Node current = head;
+    while (current != null) {
+        System.out.print(current.data + " -> ");
+        current = current.next;
+    }
+    System.out.println("null");
+}
 ```
+
+---
+
 #### Recursive Reverse
 
 ```java
@@ -246,6 +271,19 @@ public Node reverseRecursive(Node head) {
     head.next.next = head;
     head.next = null;
     return rest;
+}
+//-------
+public Node reverseIterative(Node head) {
+    Node prev = null;
+    Node current = head;
+    Node next = null;
+    while (current != null) {
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+    }
+    return prev;
 }
 ```
 
