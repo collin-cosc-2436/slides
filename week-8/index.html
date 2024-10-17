@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 8: Linked Lists
+
+## Objectives
+
+1. Understand the concept and structure of linked lists
+2. Differentiate between types of linked lists
+3. Implement basic operations on linked lists
+4. Analyze the time complexity of linked list operations
+5. Compare linked lists with arrays
+
+---
+
+## What is a Linked List?
+
+- A linear data structure
+- Elements are stored in nodes
+- Each node contains:
+    - Data
+    - Reference (link) to the next node
+- Last node points to null
+
+---
+
+## Why Linked Lists?
+
+- Dynamic size
+- Efficient insertion and deletion
+- Flexible memory allocation
+- Foundation for other data structures
+
+---
+
+## Types of Linked Lists
+
+1. Singly Linked List
+2. Doubly Linked List
+3. Circular Linked List
+
+---
+
+## Singly Linked List
+
+- Each node has data and a reference to the next node
+- Last node points to null
+
+```java
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class SinglyLinkedList {
+    Node head;
+
+    SinglyLinkedList() {
+        this.head = null;
+    }
+}
+```
+
+
+
+---
+
+## Doubly Linked List
+
+- Each node has data, a reference to the next node, and a reference to the previous node
+- First node's previous points to null
+- Last node's next points to null
+
+```java 
+class Node {
+    int data;
+    Node next;
+    Node prev;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+
+}
+
+class DoublyLinkedList {
+    Node head;
+
+    DoublyLinkedList() {
+        this.head = null;
+    }
+}
+```
+
+---
+
+## Circular Linked List
+
+- Last node points to the first node
+- Circular structure
+
+```java
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}    
+```
+
+---
+
+## Basic Operations
+
+- Insertion
+- Deletion
+- Traversal
+- Search
+
+---
+
+### Insertion in Singly Linked List
+
+```java
+public void insertAtBeginning(int data) {
+    Node newNode = new Node(data);
+    newNode.next = head;
+    head = newNode;
+}
+
+public void insertAtEnd(int data) {
+    Node newNode = new Node(data);
+    if (head == null) {
+        head = newNode;
+        return;
+    }
+    Node current = head;
+    while (current.next != null) {
+        current = current.next;
+    }
+    current.next = newNode;
+}
+```
+
+---
+
+# Deletion in Singly Linked List
+
+```java
+public void deleteNode(int key) {
+    if (head != null && head.data == key) {
+        head = head.next;
+        return;
+    }
+    Node current = head;
+    Node prev = null;
+    while (current != null && current.data != key) {
+        prev = current;
+        current = current.next;
+    }
+    if (current != null) {
+        prev.next = current.next;
+    }
+}
+```
+
+---
+
+# Traversal in Singly Linked List
+
+```java
+public void traverse() {
+    Node current = head;
+    while (current != null) {
+        System.out.print(current.data + " -> ");
+        current = current.next;
+    }
+    System.out.println("null");
+}
+```
+
+---
+
+# Linked Lists vs ArrayLists vs Arrays
+
+| Aspect| Linked List | ArrayList     | Array|
+|--------------------|--------------------------|----------------------------|-------------------|
+| Memory allocation  | Dynamic     | Dynamic       | Static            |
+| Insertion/Deletion | O(1) at beginning/end    | O(n) for shifting          | O(n) for shifting |
+| Random access      | O(n)        | O(1)          | O(1) |
+| Memory usage       | Higher (extra for links) | Higher (resizing overhead) | Lower|
+
+
+---
+
+## Recursion in Linked Lists
+
+- Elegant and concise solutions
+- Natural fit for linked list structure
+- Useful for complex operations
+
+
+#### Recursive Traversal
+
+```java
+public void printListRecursive(Node head) {
+    if (head == null) return;
+    System.out.print(head.data + " -> ");
+    printListRecursive(head.next);
+}
+```
+#### Recursive Reverse
+
+```java
+public Node reverseRecursive(Node head) {
+    if (head == null || head.next == null) return head;
+    Node rest = reverseRecursive(head.next);
+    head.next.next = head;
+    head.next = null;
+    return rest;
+}
+```
+
+---
+
+## Advanced Operations and Applications
+
+- Reversing a Linked List: This is a common interview question and a practical operation.
+- Detecting a Cycle: This is useful in graph algorithms and system design.
+- Finding the Middle Element: This is helpful in various applications.
+- Merging Two Sorted Linked Lists: This is a common operation in sorting algorithms.
+- Real-world Applications
+    - Implementation of stacks and queues
+    - Symbol tables in compiler design
+    - Undo functionality in applications
+    - Music playlist management
+    - Browser cache implementation
+
+---
+
+# Knowledge Check
+
+- http://quiz.codewithme.com
+
+1. What is the main advantage of a linked list over an array?
+   - Dynamic size and efficient insertion/deletion
+
+2. In a singly linked list, what does the last node point to?
+   - Null
+
+3. What is the time complexity of accessing an element in a linked list?
+   - O(n)
+
+4. How does a circular linked list differ from a singly linked list?
+   - The last node points back to the first node instead of null
+
+5. What is the primary advantage of a doubly linked list?
+   - It allows traversal in both directions
+
+
+---
+
+# LABS
+
+1. Implement a singly linked list in Java.
+2. Write a method to reverse a linked list.
+3. Implement a method to detect a cycle in a linked list.
+4. Design an LRU cache using a linked list.
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"zoomKey":"alt","zoomLevel":2,"_":["week-8/slides.md"],"static":"../cocs-2436-slides/week-8","static-dirs":"week-8/assets","staticDirs":"week-8/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
