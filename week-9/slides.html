@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 9: Stacks and Queues
+
+## Objectives
+
+1. Understand the concepts of stacks and queues
+2. Learn about the operations and applications of stacks and queues
+3. Implement stacks and queues using arrays and linked lists
+4. Explore the use of stacks and queues in various algorithms
+5. Understand the importance of generics in implementing stacks and queues
+6. Identify and avoid common errors when working with stacks and queues
+
+---
+
+## What is Stacks ?
+- Definition of a stack: LIFO (Last-In-First-Out) data structure
+- Stack is a linear data structure that stores it’s elements in sequential order similar to Arrays. 
+- When adding or removing elements, it follows a particular order called LIFO - which is short for Last In First Out.
+- Real-world examples of stacks (e.g., stack of plates)
+
+![stack](assets/stack.png)
+
+---
+
+## Stack Operations
+
+- Push: Add an element to the top of the stack
+- Pop: Remove and return the top element from the stack
+- Peek: Return the top element without removing it
+- IsEmpty: Check if the stack is empty
+
+![stack](assets/stack1.png)
+
+---
+
+## Implementing Stacks
+
+- Array-based implementation of stacks
+    - Advantages: Constant-time operations
+    - Limitations: Fixed size
+- Linked list-based implementation of stacks
+    - Advantages: Dynamic size, constant-time operations
+- Implementing generic stacks in Java
+
+<pre style="font-family: monospace;">
+
+    {👾}
+   <|[]|>   < Time to Code! />
+    /||\     
+     ||
+    /  \
+   <    >
+
+</pre>
+
+
+---
+
+## Applications of Stacks
+
+- Expression evaluation 
+  - Evaluating mathematical expressions, such as infix (e.g., 2 + 3 * 4) or postfix (e.g., 2 3 4 * +), can be done efficiently using a stack.  
+  - When processing an infix expression, a stack is used to keep track of the operators, allowing the operands to be processed in the correct order to obtain the final result.    
+  - For postfix expressions, the stack is used to store the operands, and the operators are applied directly to the operands on the stack, simplifying the evaluation process.  
+  - Using a stack for expression evaluation ensures that the operations are performed in the correct order, following the rules of mathematical precedence and associativity.
+
+---
+
+## Applications of Stacks
+
+- [Backtracking algorithms](https://www.geeksforgeeks.org/backtracking-algorithms/#)
+  - Backtracking is a problem-solving algorithmic technique that involves finding a solution incrementally by trying different options and undoing them if they lead to a dead end. It is commonly used in situations where you need to explore multiple possibilities to solve a problem, like searching for a path in a maze or solving puzzles like Sudoku. When a dead end is reached, the algorithm backtracks to the previous decision point and explores a different path until a solution is found or all possibilities have been exhausted.
+  - Stacks are used to keep track of the choices made and the state of the problem at each step.  
+  - The LIFO (Last-In-First-Out) nature of stacks allows the algorithm to easily undo the most recent decisions and explore alternative paths.
+  - Solving puzzles (e.g., Sudoku, crossword puzzles)  
+  - Finding the shortest path through a maze  
+  - Scheduling problems  
+  - Resource allocation problems  
+  - Network optimization problems  
+    
+---
+
+## Applications of Stacks
+
+- Function call management or **Call Stack**
+  - The Call Stack is a stack data structure that keeps track of the functions or methods being called in a program.
+  - When a function is called, it is "pushed" onto the top of the Call Stack.
+  - When a function completes, it is "popped" off the top of the Call Stack, and the program returns to the previous function that called it.
+  - The Call Stack ensures that the program returns to the correct point after a function has completed, allowing it to execute the rest of the program correctly.
+  - This makes the Call Stack a crucial application of the stack data structure in programming, as it enables the proper flow of function calls and returns.
+
+---
+
+## Stacks and Recursion
+
+- System uses call stack to manage recursive method calls
+    * Each call creates new stack frame storing local variables & parameters
+    * Stack frames track return addresses and return values
+
+```java
+// Example: Factorial using recursion
+int factorial(int n) {
+    if (n == 0) return 1;     // base case
+    return n * factorial(n-1); // recursive case
+}
+```
+
+- Stack frames for factorial(3):
+```
+[factorial(0)] → 1
+[factorial(1)] → 1 * 1
+[factorial(2)] → 2 * 1
+[factorial(3)] → 3 * 2
+```
+
+- Key Points:
+    * Recursive solutions naturally use stack properties
+    * Stack handles state management automatically
+    * Consider stack overflow for deep recursion
+
+---
+
+## What is Queue?
+
+- A queue is a linear data structure that follows the First-In-First-Out (FIFO) principle, Real-world examples of queue (e.g., waiting in line)
+- Elements are added to the rear (or back) of the queue and removed from the front of the queue.
+- The first element added to the queue will be the first one to be removed.
+- Queues are often used to model real-world waiting lines or processing tasks in the order they were received.
+- Queues are useful in scenarios where you need to process data or tasks in the order they were requested, such as print spoolers, customer service systems, and job scheduling.
+
+
+![queue](assets/queue.png)
+---
+## Queue Operations
+- Enqueue: Add an element to the rear of the queue
+- Dequeue: Remove and return the element from the front of the queue
+- Peek: Return the front element without removing it
+- IsEmpty: Check if the queue is empty
+
+![queueOps](assets/queue1.png)
+
+---
+
+## Implementing Queues
+- Array-based implementation of queues
+    - Challenges: Handling wrap-around
+- Linked list-based implementation of queues
+    - Advantages: Dynamic size, constant-time operations
+- Implementing generic queues in Java
+
+<pre style="font-family: monospace;">
+
+    {👾}
+   <|[]|>   < Time to Code! />
+    /||\     
+     ||
+    /  \
+   <    >
+
+</pre>
+
+
+---
+
+## Applications of Queues
+
+- Call Center System
+  - A call center system uses a queue to manage incoming calls from customers.
+  - Calls are added to the queue in the order they are received, and agents can dequeue calls from the front of the queue to handle them.
+  - This ensures that calls are processed in the order they were received, following the FIFO principle.
+  - Load Balancing: The queue helps manage the flow of incoming calls by balancing the load between available agents and avoiding call drops during peak hours.
+  - Prioritization: Some systems implement priority queues where urgent issues might get bumped up in the queue, but in general, queues ensure fairness by attending calls in the order they come in.
+
+---
+
+## Applications of Queues
+
+- Operating System Task/Job Scheduling
+  - In an operating system, queues are used to manage tasks and jobs that need to be processed by the CPU.
+  - The operating system maintains multiple queues for different types of tasks, such as system processes, user applications, and background tasks.
+  - The CPU scheduler dequeues tasks from the front of the appropriate queue based on priority, time-sharing, or other scheduling algorithms.
+  - Queues help ensure that tasks are processed fairly and efficiently, preventing resource starvation and improving system performance.
+  - Task scheduling: The operating system uses queues to manage tasks and allocate CPU time based on priority, deadlines, and other criteria.
+
+---
+
+## Applications of Queues
+ 
+- Printer Queue/Print Spooling
+  - In a printer queue or print spooler, documents are added to a queue in the order they are sent for printing.
+  - The printer dequeues documents from the front of the queue and prints them one by one.
+  - This ensures that documents are printed in the order they were submitted, following the FIFO principle.
+  - Print spooling: The queue helps manage the flow of print jobs to the printer, allowing multiple users to submit documents for printing without interfering with each other's jobs.
+
+---
+## Applications of Queues
+
+- Message Bus/Event Handling Systems
+  - Message bus systems and event handling systems use queues to manage the flow of messages and events between components.
+  - Messages are enqueued in the order they are received and dequeued by the components for processing.
+  - Queues help decouple the sender and receiver, allowing components to operate independently and handle messages asynchronously.
+  - Event handling: Queues are used to manage events, such as user interactions, system notifications, and application updates, ensuring that events are processed in the order they occur.
+  
+- Breadth-First Search (BFS) algorithm
+  - The BFS algorithm uses a queue to explore nodes in a graph or tree level by level.
+  - Starting from the root node, the algorithm enqueues neighboring nodes at each level and dequeues nodes to explore their children.
+  - This process continues until all nodes have been visited, ensuring that nodes are visited in the order of their distance from the root.
+
+---
+
+## Queues and Breadth-First Search
+
+- BFS is an algorithm for traversing or searching tree/graph data structures.
+- Starts from a node and explores all neighbors at the present depth before moving on.
+
+- **How Queues are Used in BFS** 
+  1. **Start with a Queue**: Initialize the queue with the starting node (e.g., root).
+  2. **Processing Nodes**:
+     - While the queue is not empty:
+       - **Dequeue** the front node (remove it from the queue).
+       - **Visit** the node (e.g., process its value).
+       - **Enqueue** all unvisited neighboring nodes (add them to the back of the queue).
+
+- **Significance of BFS and Queues**
+  - Systematic Approach: Ensures all nodes are explored level by level.
+  - Shortest Path: Finds the shortest route in unweighted graphs.
+  - Applications Useful in:
+    - Social networks (finding connections)
+    - Web crawlers (exploring links)
+
+
+---
+
+## Common Errors to Avoid
+- Forgetting to check for empty stacks/queues
+- Violating the stack/queue principles (LIFO/FIFO)
+- Inefficient implementations leading to performance issues
+
+---
+
+# [Knowledge Check](http://quiz.codewithme.com)
+-----
+http://quiz.codewithme.com 
+---
+# LABs
+-----
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"zoomKey":"alt","zoomLevel":2,"_":["week-9/slides.md"],"static":"../cocs-2436-slides/week-9","static-dirs":"week-9/assets","staticDirs":"week-9/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
