@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 12: AVL Trees, Priority Queues, and Heaps
+---
+## Objectives
+1. Understand AVL Trees and their self-balancing properties
+2. Understand and implement Priority Queues
+3. Learn Binary Heap data structure and its operations
+4. Compare performance characteristics of different data structures
+
+---
+
+## Understanding Need for AVL Trees
+- Binary Search Tree (BST) properties
+    - Left subtree values < node value
+    - Right subtree values > node value
+  
+- Problem: BST can become unbalanced
+
+```
+            Balanced BST:      Unbalanced BST:
+                 50                 50
+                /  \                 \
+               30   70               60
+              /  \    \               \
+             20  40    80              70
+                                        \
+                                        80
+                                        
+            Operations: O(log n)    Operations: O(n)
+
+```
+
+---
+
+## AVL Tree Properties
+1. Is a BST (maintains BST properties)
+2. Self-balancing (automatically maintains balance)
+3. Named after inventors: *A*delson-*V*elsky and *L*andis (1962)
+4. Maintains O(log n) operations by enforcing balance
+5. For each node N:
+    - Balance Factor = Height(Left) - Height(Right)
+    - Must be -1, 0, or 1
+
+Example:
+```
+       50
+      /  \
+     30   70
+    / \     \
+   20 40    80.    
+```
+
+---
+
+### Height and Balance Factor
+1. Height of a Node:
+    - Length of longest path from node to leaf
+    - Height of leaf node = 0
+    - Height of null (empty tree) = -1
+2. Balance Factor = Height(Left) - Height(Right)
+
+Example:
+```
+        
+                A(h=2)                           A(BF=0)
+               /      \                         /     \
+            B(h=1)    C(h=1)                B(BF=1)    C(BF=-1)
+             /          \                   /            \
+            D(h=0)      E(h=0)             D(BF=0)      E(BF=0)
+
+```
+
+---
+
+### Balance Factor Calculation
+- BF = Height(Left Subtree) - Height(Right Subtree)
+- AVL property: BF must be -1, 0, or 1
+
+Example:
+```
+    A
+   / \
+  B   C
+ /     \
+D       E
+
+Heights:
+D,E: 0 (leaves)
+B: 1 (max(0,-1) + 1)
+C: 1 (max(-1,0) + 1)
+A: 2 (max(1,1) + 1)
+
+Balance Factors:
+D: (-1)-(-1) = 0    // Leaf node: both subtrees are null (-1)
+E: (-1)-(-1) = 0    // Leaf node: both subtrees are null (-1)
+B: 0-(-1) = 1       // Left child height 0, no right child (-1)
+C: (-1)-0 = -1      // No left child (-1), right child height 0
+A: 1-1 = 0          // Both subtrees height 1
+```
+
+---
+
+### Exercise 1: Height & Balance Factor
+Calculate height and balance factor for each node:
+```
+            
+                  50                        
+                 /  \                             50(1,0)                         
+               30    70                          /       \                        
+              /  \     \                       30(1,1)    70(1,-1)                      
+             20   40    80                    /       \         \                     
+             /                               20(1,1)   40(0,0)  80(0,0)                   
+            10                               /                               
+                                            10(0,0)
+                                                                           
+```
+
+---
+
+## When Balance is Disrupted
+
+After BST insertion, an AVL tree might become unbalanced:
+```
+                                                Initial AVL Tree:                       After inserting 5:                                                                                                         
+                  50                                                                                                
+                 /  \                             50(1,0)                                   50(4,2)                        
+               30    70                          /       \                                 /       \                       
+              /  \     \                       30(1,1)    70(1,-1)                       30(3,2)    70(1,-1)                     
+             20   40    80                    /       \         \                       /       \         \                    
+             /                               20(1,1)   40(0,0)  80(0,0)                20(2,2)   40(0,0)  80(0,0)                  
+            10                               /                                         /                              
+                                            10(0,0)                                   10(1,1)                       
+                                                                                      /
+                                                                                     5(0,0) 
+                                                          
+```
+#### Exercise 2: Insert node to cause the unbalance
+
+When a new node is inserted, it may cause the AVL property to be violated at some ancestor node. An ancestor becomes unbalanced (BF < -1 or BF > 1) in one of four ways:
+---
+
+### 1. Left-Left Imbalance
+- Occurs when a node is inserted into the left subtree of the left child
+- Results in Balance Factor > 1 at ancestor
+
+
+```
+Example: Insert 10 causes Left-Left imbalance at 30
+
+                Before:         After Insert:
+                   30              30 (BF=2)
+                  /               /
+                 20     →       20 (BF=1)
+                                /
+                               10
+```
+
+---
+
+### 2. Right-Right Imbalance
+- Occurs when a node is inserted into the right subtree of the right child
+- Results in Balance Factor < -1 at ancestor
+
+```
+Example: Insert 30 causes Right-Right imbalance at 10
+
+                Before:         After Insert:
+                 10               10 (BF=-2)
+                  \                \
+                   20     →         20 (BF=-1)
+                                     \
+                                      30
+
+```
+
+---
+
+### 3. Left-Right Imbalance
+- Occurs when a node is inserted into the right subtree of the left child
+- Results in Balance Factor > 1 at ancestor
+
+```
+Example: Insert 25 causes Left-Right imbalance at 30
+
+                Before:         After Insert:
+                   30              30 (BF=2)
+                  /               /
+                 20     →       20 (BF=-1)
+                                  \
+                                   25
+
+```
+
+---
+
+
+### 4. Right-Left Imbalance
+- Occurs when a node is inserted into the left subtree of the right child
+- Results in Balance Factor < -1 at ancestor
+
+```
+Example: Insert 25 causes Right-Left imbalance at 20
+                Before:         After Insert:
+                 20               20 (BF=-2)
+                  \                \
+                   30     →         30 (BF=1)
+                                   /
+                                  25
+
+```
+
+---
+
+### How to Identify Imbalance Type:
+1. Find the first unbalanced ancestor (|BF| > 1)
+2. Look at the path that caused imbalance:
+    - Left-Left: left-left path to new node
+    - Right-Right: right-right path to new node
+    - Left-Right: left-right path to new node
+    - Right-Left: right-left path to new node
+
+```
+                Example: Analyzing the path
+                     A(BF=2)
+                    /
+                   B(BF=1)
+                  /
+                 C   ← new node
+                
+                Path from A to C is: left->left
+                Therefore: Left-Left imbalance
+```
+
+---
+
+##  Understanding Rotation Types
+
+Balance is restored through rotations. Type depends on insertion path:
+
+1. LL (Left-Left): Inserted into left subtree of left child
+2. RR (Right-Right): Inserted into right subtree of right child
+3. LR (Left-Right): Inserted into right subtree of left child
+4. RL (Right-Left): Inserted into left subtree of right child
+
+---
+
+## Left-Left (LL) Case
+- Occurs when: Node inserted in left subtree of left child
+- Fix: Single right rotation
+
+```
+                Before Insertion:    After Insert 10:     After Rotation:
+                      30               30                    20
+                     /                /                     /  \
+                    20       →      20           →        10   30
+                                   /
+                                  10
+                
+                Process:
+                1. 30 becomes unbalanced (BF=2)
+                2. Insertion path: left->left
+                3. Single right rotation fixes it
+```
+
+---
+
+## Right-Right (RR) Case
+- Occurs when: Node inserted in right subtree of right child
+- Fix: Single left rotation
+
+```
+                Before Insertion:    After Insert 30:     After Rotation:
+                    10                 10                    20
+                     \                  \                   /  \
+                      20        →        20        →      10   30
+                                          \
+                                           30
+                
+                Process:
+                1. 10 becomes unbalanced (BF=-2)
+                2. Insertion path: right->right
+                3. Single left rotation fixes it
+```
+
+---
+
+## Left-Right (LR) Case
+- Occurs when: Node inserted in right subtree of left child
+- Fix: Double rotation (left then right)
+
+```
+            Before Insertion:    After Insert 25:     After Left:        After Right:
+                  30               30                   30                  25
+                 /                /                    /                   /  \
+                20       →      20          →        25         →        20   30
+                                 \                  /
+                                  25              20
+            
+            Process:
+            1. 30 becomes unbalanced (BF=2)
+            2. Insertion path: left->right
+            3. Need two rotations to fix
+```
+
+---
+
+## Right-Left (RL) Case
+- Occurs when: Node inserted in left subtree of right child
+- Fix: Double rotation (right then left)
+
+```
+            Before Insertion:    After Insert 25:     After Right:       After Left:
+                20                 20                   20                  25
+                 \                  \                    \                /  \
+                  30        →        30         →         25      →     20   30
+                                   /                        \
+                                  25                        30
+            
+            Process:
+            1. 20 becomes unbalanced (BF=-2)
+            2. Insertion path: right->left
+            3. Need two rotations to fix
+```
+
+---
+
+## Complete Insertion Process
+1. Perform standard BST insertion
+2. Update heights of affected nodes
+3. Check balance factor at each ancestor
+4. If unbalance found, determine case type:
+    - Check insertion path (LL, RR, LR, RL)
+    - Perform appropriate rotation(s)
+
+*Exercise*: Implement AVL Tree insertion process
+---
+        
+## Exercise : Rotation Implementation: Single Right (LL Case)
+```java
+private Node llBalance(Node parent) {
+    // Get the nodes we need to work with
+    Node leftChild = parent.left;
+    Node leftRightTree = leftChild.right;
+    
+    // Perform rotation
+    leftChild.right = parent;      // Make parent the right child of its left child
+    parent.left = leftRightTree;   // Move left child's right subtree to parent's left
+    
+    // Update heights
+    updateHeight(leftChild);
+    updateBalanceFactor(leftChild);
+    
+    return leftChild;  // New parent after rotation
+}
+    
+```
+
+---
+
+## Exercise: Rotation Implementation: Single Left (RR Case)
+```java
+private Node rrBalance(Node parent) {
+    // Get the nodes we need to work with
+    Node rightChild = parent.right;
+    Node rightLeftChild = rightChild.left;
+
+    // Perform rotation
+    rightChild.left = parent;        // Make parent the left child of its right child
+    parent.right = rightLeftChild;   // Move right child's left subtree to root's right
+
+    // Update heights
+    updateHeight(rightChild);
+    updateBalanceFactor(rightChild);
+
+    return rightChild;  // New root after rotation
+}
+```
+---
+
+## Exercise: Rotation Implementation: Double Rotation (LR Case)
+```java
+private Node lrBalance(Node parent) {
+    // Perform left rotation on parent's left child
+    parent.left = rrBalance(parent.left);
+    // Perform right rotation on parent
+    return llBalance(parent);
+}
+```
+
+---
+## Exercise: Rotation Implementation: Double Rotation (RL Case)
+```java
+private Node rlBalance(Node parent) {
+    // Perform right rotation on parent's right child
+    parent.right = llBalance(parent.right);
+    // Perform left rotation on parent
+    return rrBalance(parent);
+}
+```
+---
+
+Solution: Implement AVL Tree insertion process
+
+```
+                Before inserting 5:                  
+                            50 (h=3, BF=1)          
+                           /            \           
+                    30 (h=2, BF=1)     70 (h=1, BF=-1)
+                     /           \         \        
+                20 (h=1, BF=1)   40 (h=0)  80 (h=0)
+                /                                  
+                10 (h=0)                          
+                
+                After 5 is inserted (this causes LL imbalance at node 30):
+                            50                          
+                           /   \           
+                    30 (BF=2)   70          
+                     /      \     \        
+                   20        40    80
+                  /                                  
+                10                               
+                /
+               5
+                
+                After right rotation at node 30:
+                            50 (h=3, BF=1)                    
+                           /            \                    
+                    20 (h=2, BF=1)     70 (h=1, BF=-1)    
+                     /           \         \                
+                10 (h=1, BF=0)   40 (h=0)  80 (h=0)       
+                /     \                              
+                5(h=0) 30(h=0)                          
+```
+
+---
+
+### Priority Queue Introduction
+- Abstract Data Type (ADT)
+- Elements have priorities
+- Highest (or lowest) priority served first
+
+Operations:
+- insert(element, priority) / enqueue(element, priority)
+- deleteMax()/deleteMin() / dequeue()
+- peek()
+- isEmpty()
+---
+
+### Priority Queue Applications
+
+1. Airport boarding (first class, business class, economy)
+
+2. Process Scheduling
+
+    ```java
+    class Process {
+        int priority;
+        String name;
+        long executionTime;
+    }
+    ```
+
+3. Emergency Room Triage
+
+    ```java
+    class Patient {
+        int emergencyLevel; // 1 (critical) to 5 (non-urgent)
+        String name;
+        String condition;
+    }
+    ```
+   
+4. Restaurant reservations with VIP customers
+
+---
+
+### Exercise 6: Design Priority Queue for Airport boarding
+**Exercise**: Implement a priority queue to simulate airport boarding. Each passenger has a priority based on their boarding class (first class, business class, economy). The priority queue should ensure that passengers with higher priority (first class) are boarded before those with lower priority (economy).
+
+**Steps**:
+1. Define a `Passenger` class with attributes for name and boarding class.
+2. Implement a `PriorityQueue` class with methods to insert passengers and dequeue them based on priority.
+3. Test the priority queue with a list of passengers in random order and verify that they are dequeued in the correct order.
+
+---
+## Knowledge Check
+http://quiz.codewitme.com
+
+### labs
+
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-12/slides.md"],"static":"../cocs-2436-slides/week-12","static-dirs":"week-12/assets","staticDirs":"week-12/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
