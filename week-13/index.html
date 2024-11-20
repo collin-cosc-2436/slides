@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 13: Advanced Data Structures
+## Heaps, HashTables, Sets, Maps and Graphs
+
+---
+## Objectives
+1. Learn what a Heap is and how to use it (priority queue)
+2. Understand HashTables - how they store and find data quickly using keys
+3. Quick look into Sets (unique items) and Maps (key-value pairs)
+4. Learn about Graphs - how to represent and navigate connected data
+
+---
+### What is a Heap?
+A specialized binary tree with two key properties:    
+  1. Shape Property: Must be a complete binary tree (nodes are filled from left to right at each level)
+  2. Heap Property:  
+   - For Max Heap: Parent value is greater than child values  
+   - For Min Heap: Parent value is less than child values  
+  3. No specific ordering between siblings or nodes in different branches  
+  4. Can have duplicate values
+
+
+```
+                   Max Heap                Min Heap
+                     100                     1
+                    /   \                  /   \
+                   80    90               5     3
+                  /  \   /              / \   /
+                 70  75 85            10   7  6
+                 
+                 Important:
+                  - Root contains the maximum element (in max heap)
+                  - Every level must be filled from left to right
+                  - No requirement between siblings
+```
+---
+### Heap Operations
+1. Insertion (O(log n))
+2. Delete Max/Min (O(log n))
+3. Peek (O(1))
+
+Exercise: Implement an Emergency Room system using a MaxHeap for patient triage.
+```java
+public class MaxHeap {
+    private int[] heap;
+    private int size;
+    
+    public void insert(int value) {
+        heap[size] = value;
+        bubbleUp(size++);
+    }
+    
+    private void bubbleUp(int index) {
+        while (index > 0 && heap[parent(index)] < heap[index]) 
+        {
+                      swap(index, parent(index));
+                      index = parent(index);
+        }
+    }
+}
+```
+
+---
+## Maps
+### What is a Map?
+- Interface that maps keys to values
+- Each key can map to at most one value
+- Key-value pair storage (Entry)
+
+*Key Characteristics*:
+- No duplicate keys allowed
+- Values can be duplicated
+- Some implementations maintain order, others don't
+- Can contain null keys/values (implementation dependent)
+
+*Common Map Types*:
+1. HashMap
+2. Hashtable
+3. LinkedHashMap
+4. TreeMap
+
+---
+Exercise: Explore a built-in HashMap
+
+```java
+    // HashMap Example
+    Map<String, Integer> hashMap = new HashMap<>();
+    hashMap.put(null, null);        // Legal
+    hashMap.put("key", null);       // Legal
+    hashMap.put(null, 1);          // Legal
+    
+    // Hashtable Example
+    Hashtable<String, Integer> hashtable = new Hashtable<>();
+    // hashtable.put(null, 1);      // Throws NullPointerException
+    // hashtable.put("key", null);   // Throws NullPointerException
+    hashtable.put("key", 1);        // Legal
+
+```
+---
+### Hash Function
+A hash function is a function that takes an input (or "key") and returns a fixed-size string of bytes. The output is typically a hash code, which is used to index a hash table holding the data.
+
+The main properties of a good hash function are:
+- Deterministic: The same input will always produce the same output.
+- Uniform Distribution: The hash values should be uniformly distributed to minimize collisions.
+- Fast Computation: The hash function should be quick to compute.
+  Hash functions are used in various applications, such as hash tables, to quickly locate a data record given its search key.
+
+Example:
+```java
+public int hash(String key) {
+    int hash = 7;
+    for (char c : key.toCharArray()) {
+        hash = hash * 31 + c;
+    }
+    return hash % tableSize;
+}
+/*
+- Prime Number Multiplication: The function multiplies the hash value by 31 (a prime number) and adds the character's ASCII value. Prime numbers help in spreading out the hash values more uniformly.  
+- Modular Arithmetic: The final hash value is taken modulo the table size (in this case, 10). This ensures that the hash values are within the range of the hash table indices.
+ */
+```
+---
+### HashCode and Equals
+- `hashCode()`: Returns a hash code value for the object. used by hash-based collections like HashMap and HashTable to determine the bucket location for storing the object. 
+- `equals()`: Compares two objects for equality. It is used to compare the keys in the hash table to ensure that each key is unique.
+
+When you override equals, you should also override hashCode to maintain the general contract for the hashCode method, which states that equal objects must have equal hash codes.
+
+#### Exercise: Demonstrate the use of hashCode and equals methods in Java
+
+---
+
+### What is a HashTable?
+- Data structure that implements an associative array
+- Stores key-value pairs (like a dictionary)
+- Provides fast access using keys
+- Average case: O(1) for insert, delete, search
+
+Example:
+```
+phoneBook = {
+"John" : "123-456-7890",
+"Jane" : "987-654-3210",
+"Bob"  : "555-555-5555"
+}
+```
+#### Basic Operations:
+
+- put(key, value)
+- get(key)
+- remove(key)
+- contains(key)
+
+#### Exercise: Implement a HashTable
+
+---
+### Collision in Hash Functions
+- A collision in a hash table occurs when two different keys hash to the same index in the hash table.
+- Hash function generates the same hash value for multiple keys, leading to a situation where multiple key-value pairs need to be stored in the same slot.
+#### Exercise: Demonstrate the collision and implication
+
+---
+### Collision Resolution Techniques
+
+1. *Chaining*:
+- Each slot in the hash table points to a linked list of entries that map to the same index.
+- When a collision occurs, the new entry is added to the linked list at that index.
+
+2. *Open Addressing*:
+- Instead of using linked lists, open addressing finds another slot within the hash table to store the collided entry. Common methods include:
+  - **Linear Probing**: If a collision occurs, the algorithm checks the next slot in the array (index + 1) until an empty slot is found.
+  - **Quadratic Probing**: Similar to linear probing, but it uses a quadratic function to determine the next slot (index + i^2).
+  - **Double Hashing**: Uses a second hash function to determine the step size for probing.
+
+---
+### Exercise: Resolution using Chaining
+
+```java
+class HashTable<K, V> {
+    private LinkedList<Entry<K, V>>[] table;
+
+    public HashTable(int size) {
+        table = new LinkedList[size];
+        for (int i = 0; i < size; i++) {
+            table[i] = new LinkedList<>();
+        }
+    }
+
+    public void put(K key, V value) {
+        int index = hash(key);
+        for (Entry<K, V> entry : table[index]) {
+            if (entry.key.equals(key)) {
+                entry.value = value;
+                return;
+            }
+        }
+        table[index].add(new Entry<>(key, value));
+    }
+
+    public V get(K key) {
+        int index = hash(key);
+        for (Entry<K, V> entry : table[index]) {
+            if (entry.key.equals(key)) {
+                return entry.value;
+            }
+        }
+        return null;
+    }
+
+    private int hash(K key) {
+        return key.hashCode() % table.length;
+    }
+
+    private static class Entry<K, V> {
+        K key;
+        V value;
+
+        Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+}
+```
+---
+
+### Exercise: Resolution using  Linear Probing
+
+```java
+class HashTable<K, V> {
+    private Entry<K, V>[] table;
+    private int size;
+    public HashTable(int size) {
+        table = new Entry[size];
+    }
+    public void put(K key, V value) {
+      int index = hash(key);
+      while (table[index] != null) {  
+        if (table[index].key.equals(key)) {  
+          table[index].value = value;  
+          return;
+        }  
+        index = (index + 1) % table.length;
+      }
+      table[index] = new Entry<>(key, value);
+    }
+
+    public V get(K key) {
+      int index = hash(key);
+      while (table[index] != null) {
+        if (table[index].key.equals(key)) {
+          return table[index].value;
+        }
+        index = (index + 1) % table.length;
+      }
+      return null;
+    }
+
+    private int hash(K key) {
+        return key.hashCode() % table.length;
+    }
+
+    private static class Entry<K, V> {
+        K key;
+        V value;
+
+        Entry(K key, V value) {
+          this.key = key;
+          this.value = value;
+        }
+    }
+}
+```
+---
+
+###  HashMap vs Hashtable
+
+| Feature | HashMap | Hashtable |
+|---------|---------|-----------|
+| Thread Safety | Not synchronized (not thread-safe) | Synchronized (thread-safe) |
+| Null Values | Allows null keys and values | Does not allow null keys or values |
+| Performance | Better performance due to no synchronization | Slightly slower due to synchronization overhead |
+| Introduction | JDK 1.2 | JDK 1.0 (Legacy class) |
+| Iterator | Uses Iterator, fail-fast | Uses Enumeration, not fail-fast |
+| Initial Capacity | 16 | 11 |
+| Load Factor | 0.75 | 0.75 |
+| Inheritance | Extends AbstractMap | Extends Dictionary, implements Map |
+| Iteration Order | No guaranteed order | No guaranteed order |
+| Memory Usage | More efficient | Slightly more overhead due to synchronization |
+| Implementation | Non-synchronized methods | Every method is synchronized |
+| When to Use | Single-threaded applications, better performance needed | Legacy code, thread-safe operations required |
+| Concurrent Alternative | Use ConcurrentHashMap for thread-safety | ConcurrentHashMap is modern alternative |
+
+---
+
+
+### Sets
+A Set is a collection that contains no duplicate elements. It is used to store unique items and provides efficient operations for adding, removing, and checking for the presence of elements. Common implementations of sets include `HashSet` and `TreeSet`.
+<br><br><br><br><br><br><br><br><br>
+#### Exercise: HashSet Implementation
+---
+
+### TreeSet for Ordered Sets
+- TreeSet is an implementation of the Set interface that uses a Red-Black tree for storage.
+- It maintains the elements in sorted order (ascending by default).
+<br /><br><br><br><br><br><br><br><br>
+#### Exercise: TreeSet Implementation
+---
+
+##  Graphs
+_Key Concepts_:
+
+- Graphs are versatile data structures, different from trees in usage
+- A tree is mathematically a type of graph
+- Graph shapes are often dictated by physical or abstract problems, unlike other data structures
+
+_Graph Components_:
+
+- Vertices (nodes) - like cities, tasks, or intersections
+- Edges - connections between vertices, like flight routes or roads
+- Nodes in graphs are traditionally called vertices (vertex singular)
+
+_Real-World Applications_:
+
+- Cities and airline routes
+- Project tasks and their dependencies
+- Freeway systems and interchanges
+---
+
+_Graph Terminology_:
+
+- Adjacency - two vertices are adjacent if connected by a single edge
+- Neighbors - vertices adjacent to a given vertex
+- Path - a sequence of edges connecting vertices
+- Connected Graph - has at least one path between every pair of vertices
+
+_Key Differences from Trees_:
+
+- Shape dictated by problems rather than algorithms
+- Used differently in programming than trees
+- Can represent physical or abstract relationships
+
+_Graph Connectivity_:
+
+- Multiple paths can exist between vertices
+- A graph is connected if there's at least one path between all vertices
+- Some graphs may be disconnected ("You can't get there from here")
+
+---
+
+### Types of Graphs
+1. Directed vs Undirected
+2. Weighted vs Unweighted
+3. Connected vs Disconnected
+
+```
+
+            Undirected Graph:          Directed Graph:
+        
+               A --- B                    A --> B
+               |     |                    |     |
+               C --- D                    C <-- D
+               
+               
+            Weighted Graph:             Unweighted Graph:
+               A -5- B                    A --- B
+               |     |                    |     |
+               2     3                    C --- D
+               |     |                    
+               C -1- D                    
+
+            Connected Graph:            Disconnected Graph:
+               A --- B                    A     B
+               |     |                    |     |
+               C --- D                    C     D
+```
+
+---
+
+### Graph Representations
+Depending on the nature of the problem and the operations you need to perform:
+1. Adjacency Matrix: An Adjacency Matrix is a 2D array where:
+    - matrix[i][j] = 1 (or the weight of the edge) if there is an edge from vertex i to vertex j.
+    - matrix[i][j] = 0 if there is no edge.
+
+Exercise:    
+```java
+int[][] graph = {
+    {0, 1, 1, 0},
+    {1, 0, 0, 1},
+    {1, 0, 0, 1},
+    {0, 1, 1, 0}
+};
+```
+---
+2. Adjacency List: An Adjacency List represents a graph as a collection of lists. Each vertex has a list of its adjacent vertices.  
+<br><br>
+#### Exercise: Practical Applications Social Networks (Graphs)
+```java
+class SocialNetwork {
+    private Map<User, Set<User>> connections;
+    
+    public void addFriend(User u1, User u2) {
+        connections.get(u1).add(u2);
+        connections.get(u2).add(u1);
+    }
+}
+```
+
+---
+## Knowledge Check
+http://quiz.codewithme.com
+
+
+
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-13/slides.md"],"static":"../cocs-2436-slides/week-13","static-dirs":"week-13/assets","staticDirs":"week-13/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
