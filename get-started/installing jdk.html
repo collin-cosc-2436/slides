@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>reveal-md</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./_assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            
+### **Instruction for Installing JDK 21 (LTS)**
+
+#### **For macOS**
+1. **Download the JDK**:
+   - Go to the [Oracle JDK Downloads page](https://www.oracle.com/java/technologies/downloads/).
+   - Select **Java SE Development Kit 21 (LTS)** and choose the macOS installer (`.dmg` file).
+
+2. **Install the JDK**:
+   - Double-click the downloaded `.dmg` file to open it.
+   - Follow the installation prompts to complete the process.
+
+3. **Verify Installation**:
+   - Open the Terminal and run:
+     ```bash
+     java --version
+     ```
+   - You should see output like `java 21 LTS`.
+
+4. **Set JAVA_HOME Environment Variable (Optional)**:
+   - Open Terminal and edit your shell profile (`.zshrc` or `.bash_profile`):
+     ```bash
+     nano ~/.zshrc
+     ```
+   - Add the following line:
+     ```bash
+     export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+     ```
+   - Save and reload the profile:
+     ```bash
+     source ~/.zshrc
+     ```
+
+---
+
+#### **For Windows**
+1. **Download the JDK**:
+   - Visit the [Oracle JDK Downloads page](https://www.oracle.com/java/technologies/downloads/).
+   - Select **Java SE Development Kit 21 (LTS)** and download the `.exe` installer for Windows.
+
+2. **Install the JDK**:
+   - Run the `.exe` file and follow the installation wizard.
+   - By default, the JDK will be installed in `C:\Program Files\Java\jdk-21`.
+
+3. **Verify Installation**:
+   - Open Command Prompt and run:
+     ```cmd
+     java --version
+     ```
+   - You should see output like `java 21 LTS`.
+
+4. **Set JAVA_HOME Environment Variable**:
+   - Open **Control Panel** > **System** > **Advanced System Settings**.
+   - In the **System Properties** window, click **Environment Variables**.
+   - Under **System Variables**, click **New** and add:
+      - **Variable Name**: `JAVA_HOME`
+      - **Variable Value**: `C:\Program Files\Java\jdk-21`
+   - Add `%JAVA_HOME%\bin` to the `Path` variable.
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["get-started"],"static":"../cocs-2436-slides/get-started"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>

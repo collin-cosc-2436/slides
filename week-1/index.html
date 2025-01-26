@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 1
+
+### Chapter 6 - A First Look at Classes, Java Basics Overview 
+### Chapter 10 - Inheritance, Polymorphism, Interfaces and Abstract Classes   
+### Introduction to Data Structures and Algorithms  
+
+---
+
+#### Weekly Structure:
+
+- Lecture with Coding Demo
+- Lab Exercise
+- Quiz/Knowledge Check
+- Short Break
+- Group Discussions/Peer Reviews
+- Recap and Q&A Session
+
+---
+
+#### Objectives
+
+By the end of this class, you should be able to answer the following questions:
+
+* Understand the course structure and expectations.
+* Define and explain the key concepts of Object-Oriented Programming (OOP)?
+* Write simple Java classes with fields, methods, and constructors.
+* Understand and apply inheritance, polymorphism, interfaces, and abstract classes in practical scenarios.
+* Create basic class hierarchies and understand their relationships.
+* Recognize and apply OOP principles in problem-solving.
+* How to submit assignments and use GitHub Classroom.
+
+---
+
+### What is Object-Oriented Programming (OOP)?
+<span class="fragment">
+
+- A paradigm that organizes your code around data or "objects", rather than functions and logic.  
+
+- Objects have attributes (fields) and behaviors (methods) that interact with each other.
+
+- Key Principles of OOP: 
+    - *Encapsulation*: Bundling the data (fields) and methods (functions) that operate on the data into a single unit or
+      class.
+  
+    - *Inheritance*: Mechanism where one class inherits fields and methods from another, promoting code reuse.
+  
+    - *Polymorphism*: Ability of objects of different classes to be treated as objects of a common type. 
+  
+    - *Abstraction*: Hiding the complex implementation details and exposing only the essential features of the object.
+</span>
+---
+
+### Why is OOP Important?
+
+- *Real-World Modeling*: OOP allows you to model real-world entities in code, making software more intuitive and easier
+  to maintain.
+
+- *Modularity*: Code is easier to manage and reuse when it’s broken down into modular classes.
+
+- *Maintainability*: OOP principles make it easier to manage and modify existing code without affecting other parts of
+  the system.
+
+---
+
+### Java as an OOP Language
+
+Java is inherently object-oriented, making it ideal for modeling real-world entities.
+
+- **Core Java Concepts**:
+    - *Classes*: The blueprint for creating objects that define the properties and behavior of objects.
+    - *Objects*: Instances of classes that hold data and behavior.
+    - *Methods*: A function defined within a class that describes the behaviors of the objects.
+    - *Fields*: Variables within a class that hold data specific to an object.
+- Example:
+
+  ```java 
+  public class Dog {
+      String name;
+      int age;
+      void bark() {
+        System.out.println(name + " is barking");
+    }
+  }
+  ```
+
+---
+
+### Writing a Simple Class, code demo
+
+Inheritance, Polymorphism, Interfaces, and Abstract Classes,composition, abstraction, encapsulation, local variables, instance Variables, methods, constructors, overloading, packages, import statements, scope of instance fields, 
+
+---
+
+### Object-Oriented Design(OOD): Finding the Classes and Their Responsibilities
+
+When designing software, it’s important to identify the classes needed and what responsibilities each class should have.  
+
+*Case Study*: Imagine you're designing a software system for a restaurant. Here’s how you might think about classes and responsibilities:
+
+**Classes**:
+- *Chef*: Responsible for cooking food.
+- *Waiter*: Responsible for taking orders from customers and serving food.
+- *Customer*: Represents the person dining at the restaurant.
+
+**Responsibilities**:
+- *Chef*: Cooks dishes based on orders received.
+- *Waiter*: Takes orders, delivers them to the kitchen, and serves the prepared dishes.
+- *Customer*: Places orders and consumes the food.
+
+In this example, the Chef doesn’t worry about taking orders or serving food—that's not their responsibility. The Waiter doesn’t cook the food, but they are responsible for ensuring the customer’s orders are properly communicated and delivered. The Customer simply interacts with the system by placing an order and expecting service.
+
+---
+
+### **Steps to Identify Classes and Responsibilities**
+
+#### *Understanding the Problem Domain*
+
+Before designing any system, it’s essential to have a deep understanding of the problem domain—the real-world environment where the software will be used. The problem domain provides context and helps ensure that the software addresses the right issues. A thorough grasp of the problem domain allows you to create software that models real-world situations accurately, leading to better functionality and maintainability.
+  - **Restaurant Example:**
+    - **Business Processes:** How orders are taken, food prepared, tables managed, payments processed.
+    - **Key Actors:** Waiters, chefs, cashiers, customers.
+    - **Resources:** Menu items, tables, ingredients, inventory.
+
+---
+
+#### Identify Nouns and Verbs
+- **Nouns:** Often represent potential *classes* (e.g., "Customer," "Order," "Menu," "Table," "Chef," "Waiter").
+- **Verbs:** Suggest potential *methods* or *responsibilities* (e.g., "takeOrder," "prepareFood," "serveFood," "calculateBill"). 
+--- 
+#### Create a Preliminary List of Classes  
+Based on nouns and verbs, create an initial list of potential classes.  
+
+  - `Customer`
+  - `Order`
+  - `MenuItem`
+  - `Table`
+  - `Waiter`
+  - `Chef`
+  - `Cashier`
+  
+--- 
+
+#### Assign Responsibilities to Classes
+Determine what each class *knows* (data/attributes) and what it *does* (methods/behaviors).
+- `Customer`: Name, contact, order history. Can place an order, view order status.
+- `Order`: List of menu items, order status, total cost. Can add/remove items, calculate total.
+- `MenuItem`: Name, description, price.
+
+--- 
+
+#### Identify Relationships Between Classes
+How do classes interact? (e.g., "Order" has many "MenuItems," "Waiter" takes orders from "Customer")
+  - Consider relationships like:
+    - **Association:** A general relationship between two classes (e.g., "Customer" places an "Order").
+    - **Aggregation:** A weaker form of composition where one class *has* another (e.g., "Order" has "MenuItems").
+    - **Composition:** A stronger form where one class *owns* another (e.g., "Car" has an "Engine").
+    - **Inheritance:** A class inherits properties and behaviors from another class (e.g., "Pizza" inherits from "MenuItem").  
+    
+
+
+---
+### SOLID Principles in Object-Oriented Design
+
+*S: Single Responsibility Principle*: A class should have only one reason to change, meaning it should have only one job or responsibility.
+
+*O: Open/Closed Principle*:Software entities (classes, modules, functions) should be open for extension but closed for modification.
+
+*L: Liskov Substitution Principle*: Objects of a superclass should be replaceable with objects of its subclasses without breaking the application.
+
+*I: Interface Segregation Principle*: Clients should not be forced to depend on interfaces they do not use.
+
+*D: Dependency Inversion Principle*: High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+---
+
+## **Summary**
+
+- **Key Takeaways**:
+    - Java is a powerful OOP language that models real-world entities.
+    - Understanding classes and objects is foundational to mastering Java.
+    - *Importance of Understanding the Problem Domain*
+      - A thorough understanding ensures your software accurately reflects the real-world environment and addresses the right issues. 
+      - Avoid Over-Engineering, You'll identify only the necessary classes and avoid creating unnecessary complexity.
+      - Improved Maintainability and Better Communication
+
+
+---
+
+# Introduction to Data Structures and Algorithms
+
+---
+
+#### **What is a Data Structure?**
+- A **data structure** is a specific framework or layout for storing and managing data, enabling efficient operations like retrieval, insertion, or deletion. 
+- It is the "end result" of how data is organized or structured.  
+- *Data Structure* (How you organize the books)
+- **Examples:**
+  - An **array** is like a straight row of boxes where each box holds a value, and every box has a specific position.
+  - A **stack** is like a stack of plates: you can only add or remove the top plate.
+--- 
+#### **What is an Algorithm?**
+- An **algorithm (Steps or Process)** is a step-by-step procedure for solving a problem, which may involve organizing, searching, or transforming data within a data structure.
+- *Algorithm* (How you interact with the books)
+- **Examples:**
+  - Sorting an array into ascending order is an algorithm (e.g., Bubble Sort, Merge Sort).
+  - Searching for a specific value in a stack is an algorithm (e.g., Linear Search).
+
+---
+
+### Real-Life Example: The Bookshelf
+
+<div style="display: flex; align-items: flex-start;">
+    <div style="flex: 0 400px;">
+        <img src="assets/unstructured.png" alt="Bookshelf2">
+    </div> 
+--- 
+    <div style="flex: 0 500px;">
+        <img src="assets/bookshelf.png" alt="Bookshelf">
+    </div>
+</div>  
+
+*Data structure and algorithm work together*
+1. The **data structure** determines the **efficiency** of your actions.
+   - Searching a book on an unsorted shelf is slower than on a sorted shelf.
+2. The **algorithm** is the procedure that interacts with the structure.
+   - You’d use different steps (algorithms) to find a book depending on how the shelf is organized.  
+
+*Data structures are tools for storing data, and algorithms are methods for working with that data efficiently*
+
+---
+
+### Why is this Important?
+
+1. **Efficient Problem Solving**: DSA provides tools and techniques to solve problems efficiently in terms of time and space.
+
+2. **Foundation of Computer Science**: It forms the backbone of software development, enabling logical thinking and problem decomposition.
+
+3. **Optimized Resource Utilization**: Helps build systems that use memory, CPU, and storage effectively, critical for high-performance applications.
+
+4. **Scalability**: DSA ensures that programs remain efficient as the size of the input data grows, which is crucial for real-world applications like search engines, databases, and social media platforms.
+
+5. **Real-World Applications**: Many technologies rely on DSA, such as route optimization (shortest path algorithms), recommendation systems (graph algorithms), and data compression (Huffman coding).
+
+6. **Improves Coding Skills and Interviews**: Helps developers write cleaner, modular, and reusable code and Essential for cracking technical job interviews at top companies.
+
+---
+
+# Knowledge Check
+
+---
+
+### Which of the following is NOT a key principle of Object-Oriented Programming (OOP)?
+- a) Encapsulation
+- b) Inheritance
+- c) Polymorphism
+- d) Compilation <span class="fragment">&#x2714;</span>
+
+---
+
+### What does encapsulation in OOP refer to?
+- a) Inheriting properties from another class
+- b) Hiding the complex implementation details
+- c) Bundling data and methods that operate on that data into a single unit or class <span class="fragment">&#x2714;</span>
+- d) Allowing objects to take many forms
+
+---
+
+### In Java, what is the purpose of a constructor in a class?
+- a) To compile the class
+- b) To initialize objects <span class="fragment">&#x2714;</span>
+- c) To manage memory allocation
+- d) To define methods in the class
+
+---
+
+### Which of the following best describes a class in Java?
+- a) A type of loop structure
+- b) A blueprint for creating objects <span class="fragment">&#x2714;</span>
+- c) A function that runs when an object is created
+- d) A data type that holds a sequence of characters
+
+---
+
+### True<span class="fragment">&#x2714;</span> or False: Overloading allows multiple methods in a class to have the same name but different parameters.
+
+---
+
+### What is the output of the following code snippet?
+
+```java
+    public class Dog {
+        String name = "Buddy";
+        int age = 5;
+    
+        void bark() {
+            System.out.println(name + " is barking");
+        }
+    }
+    
+    Dog myDog = new Dog();
+    myDog.bark();
+```
+
+- a) Buddy is barking <span class="fragment">&#x2714;</span>
+- b) The code will not compile
+- c) The code will throw a runtime exception
+- d) barking
+
+---
+
+### What are instance fields in Java?
+- a) Variables that are shared across all instances of a class
+- b) Variables declared within a method
+- c) Variables declared inside a class but outside any method <span class="fragment">&#x2714;</span>
+- d) Variables that only exist during the execution of a method
+
+---
+
+### What does the following code snippet demonstrate?
+
+```java
+public void setDimensions(double len) {
+    length = len;
+    width = len;
+}
+
+public void setDimensions(double len, double wid) {
+    length = len;
+    width = wid;
+}
+```
+
+- a) Inheritance
+- b) Polymorphism
+- c) Method Overloading <span class="fragment">&#x2714;</span>
+- d) Encapsulation
+
+---
+
+### True<span class="fragment">&#x2714;</span> or False: A class can have multiple constructors, as long as each constructor has a different signature.
+ 
+---
+
+### In which scenario would you use the 'this' keyword in Java?
+- a) To refer to the current object within an instance method or a constructor <span class="fragment">&#x2714;</span>
+- b) To call a method of another class
+- c) To initialize a static field
+- d) To terminate a loop
+
+---
+
+### Question 12
+**What is the role of a package in Java?**
+- a) To compile Java classes
+- b) To group related classes together <span class="fragment">&#x2714;</span>
+- c) To convert Java code into bytecode
+- d) To define the entry point of the application
+
+---
+
+### What happens if you don't define a constructor in a Java class?
+- a) The class will not compile
+- b) Java provides a default no-argument constructor <span class="fragment">&#x2714;</span>
+- c) The class cannot be instantiated
+- d) The class will automatically inherit a constructor from the Object class
+
+---
+
+### Which of the following is an example of passing an object as an argument in Java?
+- a) `int sum(int a, int b)`
+- b) `void enlargeRectangle(Rectangle rect, double factor)` <span class="fragment">&#x2714;</span>
+- c) `String getString()`
+- d) `boolean checkCondition(boolean flag)`
+
+---
+
+### Which principle of OOP does the following statement demonstrate: "A single function can take many forms"?
+- a) Inheritance
+- b) Encapsulation
+- c) Polymorphism <span class="fragment">&#x2714;</span>
+- d) Abstraction
+
+---
+
+### True<span class="fragment">&#x2714;</span> or False: The keyword 'import' is used to include other classes from packages.
+
+---
+
+### Which of the following best describes polymorphism in Java?
+- a) The ability of a class to inherit from multiple classes
+- b) The ability of different classes to be treated as instances of the same class through inheritance <span class="fragment">&#x2714;</span> 
+- c) The use of methods with the same name but different parameters within the same class
+- d) The ability of a class to define multiple constructors
+
+---
+
+### *How to complete this assignment:*
+
+1. GitHub Account Setup: Create a GitHub account at https://github.com if you don't have one yet
+
+2. Joining the Classroom: Click on the GitHub Classroom invitation link provided by the professor
+- Authorize GitHub Classroom to access your GitHub account
+- Select your name/student ID from the roster
+- This automatically creates a personal repository for assignments
+
+3. Accepting Assignments
+- When professor posts a new assignment, click "Accept this assignment"
+- GitHub Classroom will generate a personal repository for that specific assignment
+- Repository name typically follows format: `<course-name>-<assignment-name>-<your-username>`
+
+4. Cloning the Repository
+- Open terminal/command prompt
+- Use Git command: `git clone <repository-url>`
+- Navigate into repository: `cd <repository-folder>`
+
+5. Working on Assignment
+- Make changes to code files
+- Use Git commands to track progress:
+    - `git add .` (stage all changes)
+    - `git commit -m "Descriptive commit message"`
+    - `git push origin main`
+
+6. Submitting on Canvas
+- Copy repository URL from GitHub
+- Paste repository link in Canvas assignment submission
+- Ensure all required files are pushed to GitHub
+
+
+
+```java
+public class HelloStudent {
+    public static void main(String[] args) {
+        // Allow customization of student name
+        String studentName = "Student";
+        
+        // Check if a name argument is provided
+        if (args.length > 0) {
+            studentName = args[0];
+        }
+        
+        // Print personalized greeting
+        System.out.println("Hello " + studentName + "!");
+    }
+}
+
+```
+
+Compilation and Run Instructions:
+- Compile: `javac HelloStudent.java`
+- Run without name: `java HelloStudent`
+- Run with name: `java HelloStudent "John Doe"`
+
+Recommended Repository Structure:
+```
+assignment-repo/
+│
+├── src/
+│   └── HelloStudent.java
+├── README.md
+└── .gitignore
+```
+
+Key Tips:
+- Commit frequently
+- Write clear commit messages
+- Push code regularly
+- Check Canvas for specific submission instructions
+
+Would you like me to elaborate on any part of the guide or repository setup?
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-1/slides.md"],"static":"../cocs-2436-slides/week-1","static-dirs":"week-1/assets","staticDirs":"week-1/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
