@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 2
+
+## Chapter 7 - Arrays and the ArrayList Class
+## Chapter 9. Text Processing and More about Wrapper Classes
+
+---
+
+## Objectives
+
+By the end of this class, you should be able to answer the following questions:
+
+1. Understand what an array is and how it is structured in memory.
+2. Learn how to declare, initialize, and access elements in one-dimensional and two-dimensional arrays.
+3. Perform common operations on arrays, such as iteration, searching, and sorting.
+4. Compare the `ArrayList` class with standard arrays.
+5. Explore the benefits and limitations of arrays and `ArrayList`.
+6. Understand the need for wrapper classes.
+7. Learn text/string processing and its use for problem-solving.
+
+---
+
+#### *What is a Data Structure?*
+- A **data structure** is a specific framework or layout for storing and managing data, enabling efficient operations like retrieval, insertion, or deletion.
+- It is the "end result" of how data is organized or structured.
+- *Data Structure* (How you organize the books)
+- **Examples:**
+    - An **array** is like a straight row of boxes where each box holds a value, and every box has a specific position.
+    - A **stack** is like a stack of plates: you can only add or remove the top plate.
+--- 
+#### *What is an Algorithm?*
+- An **algorithm (Steps or Process)** is a step-by-step procedure for solving a problem, which may involve organizing, searching, or transforming data within a data structure.
+- *Algorithm* (How you interact with the books)
+- **Examples:**
+    - Sorting an array into ascending order is an algorithm (e.g., Bubble Sort, Merge Sort).
+    - Searching for a specific value in a stack is an algorithm (e.g., Linear Search).
+
+---
+
+## Understanding Arrays and ArrayList
+
+---
+
+### What is an Array?
+
+- An array is a data structure that allows you to store fixed number of values of the same type in a single variable.
+- Think of an array as a row of lockers in a school, where each locker can hold one item, and each locker is identified by its own unique number (index).  
+  ![locker.png](assets/locker.jpg)
+  ![img.png](assets/img.png)
+  
+---
+
+### Memory and Arrays: How Arrays Relate to Memory
+  - Arrays are stored in contiguous memory locations. This means that the elements of the array are placed next to each other in memory.
+  - This allows for quick access to any element in the array by using its index.
+  - However, this also means that arrays have a fixed size that must be defined when the array is created.
+  - *fixed-size*, *contiguous block of memory*  
+
+    ```java
+      int[] numbers = {10, 20, 30, 40, 50}; 
+    ``` 
+    - `numbers[0]` might be at memory address `0x0010`.  
+    - `numbers[1]` would then be at 0x0014 ==> `0x0010+(4*1)` if each int is 4 bytes long (which is typical for a 32-bit integer).  
+    - This is why arrays index starts at 0, `0x0010+(4*2)` , `0x0010+(4*3)`, ...
+    
+---
+
+### Declaring and Initializing Arrays 
+
+- To declare an array in Java:
+  ```java
+  int[] numbers;
+  ```
+- To initialize the array:
+  ```java
+  numbers = new int[5];  // Creates an array of 5 integers
+  ```
+- Arrays can also be initialized at the time of declaration:
+  ```java
+  int[] numbers = {1, 2, 3, 4, 5};
+  ```
+<|[]|> 
+---
+
+### TWO And Multidimensional Arrays
+
+- Arrays can have more than one dimension. The most common is a two-dimensional array (like a matrix): think of as grid or table with rows and columns.
+  ```java
+  int[][] array = new int[3][3]; // Creates a 3x3 array with all elements initialized to 0.
+  ```
+  ```java 
+  //the array with predefined values:
+  int[][] matrix = {
+      {1, 2, 3},
+      {4, 5, 6},
+      {7, 8, 9}
+  };
+  System.out.println(matrix[1][2]);  // Outputs: 6
+  ```
+<|[]|>
+- Three-dimensional arrays are also possible:
+    ```java
+    int[][][] cube = new int[3][3][3]; 
+    ```
+
+- 2D Arrays: Represent grids or matrices (e.g., images, game boards).
+- Multi-Dimensional Arrays: Represent complex data structures (e.g., 3D graphics, scientific data).
+- Real-World Applications: Image processing, game development, machine learning, and more.
+- Matrices are useful for mathematical computations, image processing, and more, like GPT can be thought of as utilizing arrays of arrays (matrices) to process large datasets efficiently.
+- Machine Learning: Multi-Dimensional arrays for neural networks. storing weights and biases in neural network.
+
+---
+
+### Common Array Operations
+<|[]|>  
+Accessing Array Elements
+```java
+//Use the index to access specific elements:
+int firstNumber = numbers[0];  // Access the first element
+
+//Iterating over an array:  
+for (int i = 0; i < numbers.length; i++) {
+        System.out.println(numbers[i]);
+}
+```
+
+Searching for an element:
+
+```java
+  int searchValue = 30;
+  boolean found = false;
+  for (int i = 0; i < numbers.length; i++) {
+    if (numbers[i] == searchValue) {
+      found = true;
+        break;
+    }
+  }
+```  
+
+Sorting an array:
+```java
+    Arrays.sort(numbers); 
+```
+
+---
+
+#### What is an ArrayList?
+- An `ArrayList` is a resizable array, part of Java’s `java.util` package.
+- Unlike standard arrays, ArrayLists are dynamic arrays that can resize themselves as needed. While arrays have a fixed size, ArrayLists can grow dynamically.
+- `ArrayList` can only hold objects, meaning primitive types must be wrapped (e.g., `Integer` instead of `int`).  
+- Key benefits: 
+  - Built-in methods: `add()`, `remove()`, `contains()`, etc.
+  - Flexible and easy to use.
+
+  ```java
+  ArrayList<String> names = new ArrayList<>();
+  names.add("Alice");
+  names.add("Bob");
+  
+  ArrayList<Integer> list = new ArrayList<>();
+  list.add(10);
+  list.add(20);
+  System.out.println(list.get(1)); 
+  ```
+
+---
+
+### Common Operations with ArrayLists
+Adding Elements
+```java
+  names.add("Charlie");
+```
+Accessing Elements
+```java
+  String name = names.get(0);  // Retrieves the first element
+```
+Removing Elements
+```java
+  names.remove("Alice");
+```
+<[]>
+---
+
+### Array vs. ArrayList
+
+| Feature | Array | ArrayList |
+|---|---|---|
+| Fixed size | Yes | No |
+| Performance | Generally faster for basic operations | Slower for basic operations due to dynamic resizing |
+| Flexibility | Less flexible | More flexible |
+| Usage | When the size is known upfront | When the size is unknown or can vary |  
+
+---
+
+---
+## Introduction to Wrapper Classes
+
+#### What are Wrapper Classes?
+- Primitive types in Java (int, char, double, etc.) do not have methods.
+- Java includes primitive types for performance reasons. Pure OOP?
+- Wrapper classes provide object-oriented features for primitives.
+- Examples: `Integer`, `Double`, `Character`, `Boolean`.  
+--- 
+
+
+#### Why use Wrapper Classes?
+- Allow primitives to be used in Collections (e.g., `ArrayList<Integer>`).
+- Provide utility methods for conversion and manipulation.  
+
+<[()]>
+
+---
+### `Character` Class
+
+#### What is the Character Class?
+- A wrapper class for the char primitive type.
+- Provides methods to test and manipulate characters.
+--- 
+#### Why is Character Testing Important?
+- Helps in validating and processing user input.
+- Used in tokenizing and formatting text.
+--- 
+#### Common Methods of `Character` Class
+| Method | Description |
+|--------|-------------|
+| `isDigit(c)` | Checks if character is a digit |
+| `isLetter(c)` | Checks if character is a letter |
+| `isWhitespace(c)` | Checks if character is a whitespace |
+| `toUpperCase(c)` | Converts to uppercase |
+| `toLowerCase(c)` | Converts to lowercase |
+
+<[()]>
+
+---
+### `String` Class
+
+- String is sequences of characters, fundamental class essential for Java programming
+- String is reference type in Java, part of standard lib, java.lang.*, and heavily used in almost every Java program 
+- Strings are immutable, ensuring security and performance optimization.
+- Provides built-in methods for easy manipulation.
+- String Interning
+
+### Common Methods
+| Method | Description |
+|--------|-------------|
+| `length()` | Returns length of string |
+| `charAt(index)` | Returns character at index |
+| `substring(start, end)` | Extracts substring |
+| `indexOf(str)` | Finds index of substring |
+| `replace(old, new)` | Replaces occurrences |  
+<[()]>
+
+---
+## `StringBuilder` Class
+
+#### Why `StringBuilder` Instead of `String`?
+- `String` is immutable, making modifications inefficient.
+- `StringBuilder` is mutable, optimizing performance for heavy modifications.  
+<[()]>
+
+---
+### Tokenizing `Strings`
+#### What is Tokenization?
+- Splitting a string into smaller parts (tokens) based on delimiters.
+--- 
+#### Why Tokenize Strings?
+- Useful in parsing CSV files, log data, user input processing.
+- This is foundation of NLP, a crucial first step in preparing text data for model like GPT. 
+- Enable Understanding and key to building vocabulary for model.   
+- In Sentiment Analysis Tokenization is the first step in analyzing the sentiment of text.
+
+--- 
+#### Using `split()`
+--- 
+#### Using `StringTokenizer`
+
+---
+### Wrapper Classes for Numeric Data Types
+
+| Primitive Type | Wrapper Class |
+|----------------|---------------|
+| `byte`         | `Byte`        |
+| `short`        | `Short`       |
+| `int`          | `Integer`     |
+| `long`         | `Long`        |
+| `float`        | `Float`       |
+| `double`       | `Double`      |
+<[()]>
+
+---
+
+### Knowledge Check  
+### http://quiz.codewithme.com 
+
+### ![quiz](quizqr.png)
+
+---
+
+# Labs
+
+
+--- 
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-2/slides.md"],"static":"../cocs-2436-slides/week-2","static-dirs":"week-2/assets","staticDirs":"week-2/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
