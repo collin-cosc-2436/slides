@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 3: Recursion
+### ![dominos.png](assets/dominos.png)
+---
+### Objectives
+1. Understand the concept of recursion and how it differs from iterative solutions.
+2. Learn how to identify problems that can be solved using recursion.
+3. Explore classic examples of recursion and understand the base case and recursive case.
+4. Understand the advantages and disadvantages of recursion.
+5. Practice writing recursive functions in Java.
+
+---
+
+### What is Recursion? 
+Recursion is a programming technique where a *function calls itself* to solve a problem by breaking it down into smaller, more manageable sub-problems.
+- Recursion is based on the principle of *divide and conquer*.
+- Recursion solution are *elegant and concise* [{</>}]
+- A mirror reflecting another mirror infinitely.
+- Inception (Dreams Within Dreams)
+![mirrorInception.png](assets/mirrorInception.png)
+---
+
+### Key Concepts: Base Case and Recursive Case
+
+*Base Case*: The condition under which the recursion stops.  
+- It prevents the function from calling itself indefinitely.
+- It provides the result for the smallest sub-problem.
+- It is the termination condition.  
+
+*Recursive Case*: The part where the function calls itself with a smaller problem.
+- It moves the problem towards the base case.
+- It combines the results of the smaller sub-problems to solve the original problem.
+- It is the part of the function that calls itself.
+
+Example: Factorial Calculation: n! = n * (n-1) * (n-2) * ... * 1
+  ```java
+  int factorial(int n) {
+      if (n == 1) { // Base case
+          return 1;
+      } else {
+          return n * factorial(n - 1); // Recursive case
+      }
+  }
+  ```
+---
+
+### Advantages and Disadvantages of Recursion 
+| Advantage | Disadvantage |
+|---|---|
+|Elegant and Concise Code: Recursive solutions can be more elegant and easier to understand than iterative solutions.|Recursion uses the call stack, so it's important to consider the depth of recursion to avoid stack overflow.|
+| Simplifies code for problems that can be broken down into similar sub-problems. | Can lead to high memory usage due to function call stack. |
+|Natural for Certain Problems: Useful for tasks like tree traversal, divide-and-conquer algorithms, and mathematical sequences are naturally recursive.  | May be less efficient than iterative solutions in some cases. |
+
+---
+### How to know when to use Recursion?  
+
+*The main challenge with recursion is deconstructing a problem to determine if recursion is a good fit*
+
+- Ask: Can the problem be divided into smaller, similar sub-problems?    
+  Example: 
+  - Factorial: n! = n * (n-1)! (the problem reduces to a smaller factorial).  
+  - Fibonacci: F(n) = F(n-1) + F(n-2) (the problem reduces to two smaller Fibonacci numbers).  
+
+- Ask: Is there a simple, non-recursive solution for the smallest version of the problem?  
+  Example:
+    - For factorial, the base case is 1! = 1.  
+    - For Fibonacci, the base cases are F(0) = 0 and F(1) = 1.  
+  - Without a *base case*, recursion will run infinitely, leading to a stack overflow.  
+
+- Ask: Does the problem have a natural recursive structure?
+  Example:
+    - Tree Traversal: Trees are inherently recursive (each node is the root of a subtree).
+    - Divide and Conquer Algorithms: Problems like merge sort or *binary search* naturally divide into smaller sub problems.
+    - If the problem has a recursive structure, recursion is often the most intuitive solution.  
+    [{</>}]
+  
+---
+### ...How to know when to use Recursion?
+
+- Ask: Is recursion efficient for this problem?
+  - Recursion can be less efficient than iteration due to function call overhead and stack memory usage.
+  - Consider the depth of recursion and the size of the problem when choosing between recursion and iteration. Problems with a large number of recursive calls, an iterative solution may be more efficient.
+  - Example:
+    - Fibonacci (naive recursion): Inefficient due to repeated calculations (exponential time complexity).
+    - Fibonacci (with memoization): Efficient when redundant calculations are avoided. [{</>}]
+  - If recursion leads to excessive repeated work (e.g., overlapping subproblems), consider memoization or dynamic programming.
+  
+- Ask: Is an iterative solution simpler or more efficient?
+  - Some problems are more naturally solved with loops and iteration.
+  - If recursion leads to complex or inefficient code, an iterative solution may be preferable.
+  - Consider the trade-offs between recursion and iteration for the specific problem at hand.
+  - Use recursion when it leads to cleaner, more readable code and when the problem naturally fits a recursive approach.  
+  
+---
+
+### Summary of Thought Process:
+1. Break the problem into smaller, similar sub-problems.
+2. Identify a clear base case.
+3. Check if the problem has a recursive structure.
+4. Evaluate efficiency and compare with iterative solutions.
+5. Use recursion when it leads to cleaner, more intuitive code and when the problem naturally fits a recursive approach.
+
+---
+
+### Other Recursion Examples
+#### Binary Search:
+- Given a sorted array, find the index of a target value.
+- Recursive Approach:
+  - Divide: Check the middle element of the array. 
+  - Conquer: 
+    - If the middle element is the target, return its index.
+    - If the target is smaller, recursively search the left half of the array.
+    - If the target is larger, recursively search the right half of the array.
+  - Base Case: If the search range is empty, the target is not in the array.  
+```java
+int binarySearch(int[] arr, int low, int high, int target) {
+    if (low > high) {
+        return -1; // Base case: target not found
+    }
+    int mid = low + (high - low) / 2; // Find the middle index
+    if (arr[mid] == target) {
+        return mid; // Base case: target found
+    } else if (arr[mid] > target) {
+        return binarySearch(arr, low, mid - 1, target); // Search left half
+    } else {
+        return binarySearch(arr, mid + 1, high, target); // Search right half
+    }
+}
+```
+--- 
+#### Tower of Hanoi:
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/rf6uf3jNjbo?si=Yo9R_Wthz-LKG1n9&amp;start=95&amp;end=444" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  
+---
+
+### Recursion vs. Iteration
+
+|Symptom (Problem Type) | Use |
+|---|---|
+| Problem has a recursive structure (e.g., trees, graphs, divide and conquer). | **Recursion**               |
+| Problem is simple and linear (e.g., summing an array, reversing a string). | **Iteration**               |
+| Code readability and elegance are important (e.g., mathematical sequences like Fibonacci). | **Recursion**               |
+| Performance and memory efficiency are critical (e.g., large input sizes). | **Iteration**               |
+| Problem involves backtracking (e.g., solving puzzles like Sudoku or N-Queens). | **Recursion**               |
+| Problem requires deep nesting or complex logic (e.g., nested loops with many conditions). | **Iteration**               |
+| Problem has overlapping subproblems (e.g., Fibonacci, dynamic programming). | **Recursion with Memoization** |
+| Problem involves hierarchical data (e.g., file system traversal, XML/JSON parsing). | **Recursion**               |
+| Problem requires tail recursion optimization (e.g., functional programming languages). | **Recursion**               |
+| Problem is iterative by nature (e.g., processing elements in a list one by one). | **Iteration**               |
+
+---
+
+### Knowledge Check http://quiz.codewithme.com
+### ![img_1.png](assets/img_1.png)
+---
+
+### LABS
+-----
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-3/slides.md"],"static":"../cocs-2436-slides/week-3","static-dirs":"week-3/assets","staticDirs":"week-3/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
