@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 5: Advanced Sorting, Searching, and Algorithm Analysis
+
+## Objectives
+
+1. Review Algorithm Analysis and Asymptotic Notations.
+2. Analyze and understand advanced sorting algorithms (Merge Sort, Quick Sort and Heap Sort)
+3. Learn about various characteristics of algorithms and why it matters.
+4. Understand the trade-offs between different sorting algorithms
+5. Deep Dive into Heap Sort and the Heap Data Structure
+6. Explore Practical Applications of Sorting Algorithms
+
+---
+
+## Review and Expansion on Algorithm Analysis
+
+Imagine you're looking for your keys in your house:
+- **Best-case**: Your keys are right where you first look. O(1)
+- **Average-case**: Your keys are in a common place, but you have to check a few spots. O(n)
+- **Worst-case**: You have to search every nook and cranny of your house. O(n)
+
+For algorithms:
+
+- **Best-case**: The input is in the most favorable configuration, minimum time an algorithm takes to complete.
+- **Average-case**: The input is in a typical or random configuration, average time taken by an algorithm over all possible inputs.
+- **Worst-case**: The input is in the least favorable configuration, maximum time an algorithm takes to complete.
+
+Example: Bubble Sort
+- Best-case: O(n) when the array is already sorted  ~.~
+- Average-case: O(n²)
+- Worst-case: O(n²)
+
+---
+
+### Other Asymptotic Notations
+
+- _Big Ω (Omega):_ Describes the best-case lower bound.
+
+    - Example: If an algorithm takes at least **n log n** operations in the best case, we say it is **Ω(n log n)**.
+
+- _Big Θ (Theta):_ Describes the exact asymptotic behavior (tight bound).
+
+    - Example: If an algorithm takes both at most and at least **n log n** operations, we say it is **Θ(n log n)**.
+
+- _Little o (o):_ Represents an upper bound that is not tight (strictly grows slower).
+
+    - Example: If f(n) = n and g(n) = n², then **f(n) = o(g(n))**, meaning f(n) grows slower than g(n).
+
+- _Little ω (ω):_ Represents a lower bound that is not tight (strictly grows faster).
+
+    - Example: If f(n) = n² and g(n) = n, then **f(n) = ω(g(n))**, meaning f(n) grows faster than g(n).
+
+---
+
+
+### Interpolation Search
+
+**Best suited for:** Uniformly distributed sorted arrays  
+**Time Complexity:**
+- **Best case:** O(1) (if the target is exactly where expected)
+- **Average case:** O(log log n) *(faster than Binary Search on uniform data)*
+- **Worst case:** O(n) *(if distribution is highly skewed)*
+
+**How It Works:**
+- Unlike **Binary Search** (which always checks the middle), **Interpolation Search estimates** where the target is based on values.
+- Uses a **probing formula**:  
+  $$
+  \[
+  pos = low + \frac{(target - arr[low]) \times (high - low)}{arr[high] - arr[low]}
+  \]
+  $$
+- Works **much faster than Binary Search** when elements are evenly distributed, like student IDs, IP addresses, or price lists.
+
+
+---
+
+### Theoretical Analysis
+
+| Algorithm | Best Case | Average Case | Worst Case |
+|--------|---------|------------|------------|
+| Linear Search | O(1)    | O(n)       | O(n)       |
+| Binary Search | O(1)    | O(log n)   | O(log n)   |
+| Bubble Sort | O(n)    | O(n^2)     | O(n^2)     |
+| Insertion Sort | O(n)    | O(n^2)     | O(n^2)     |
+| Selection Sort | O(n^2)  | O(n^2)     | O(n^2)     |
+| Merge Sort | O(n log n) | O(n log n) | O(n log n) |
+| Quick Sort | O(n log n) | O(n log n) | O(n^2)   |
+| Heap Sort | O(n log n) | O(n log n) | O(n log n) |
+|        |         |            |            |
+
+The worst-case time complexity is often considered the most important for several reasons:
+
+ _Guaranteed performance_:  It provides an upper bound on the algorithm's running time, ensuring that it will never perform worse than this limit.   
+ _Reliability_: In critical systems or real-time applications, knowing the worst-case scenario helps in ensuring that deadlines are always met.   
+ _Planning_: It helps in resource planning, such as allocating enough memory or processing power to handle the worst-case scenario.    
+ _Benchmarking_: It is often used to compare algorithms' efficiency.
+
+---
+
+#### _Characteristics of Algorithms_
+
+| Characteristic | Description |
+|----------------|-------------|
+| Time Complexity | Measure of the algorithm's running time (best, average, and worst case) as input size increases. Usually expressed in Big O notation. |
+| Space Complexity | Amount of additional memory space required by the algorithm. Includes consideration of whether the algorithm is in-place or not. |
+| Stability | Whether the algorithm preserves the relative order of equal elements from the input to the output. |
+| Adaptivity | The algorithm's ability to take advantage of existing order in the input data, potentially reducing time complexity for partially sorted inputs. |
+| Method/Technique | The fundamental approach used by the algorithm (e.g., comparison-based, distribution-based, merging, etc.). |
+| Recursion | Whether the algorithm uses a recursive or iterative implementation. |
+| Cache Performance | How efficiently the algorithm utilizes CPU cache, affecting real-world performance, especially for large datasets.  Locality of Reference|
+| Parallelizability | The ease with which the algorithm can be parallelized to take advantage of multi-core processors or distributed systems. |
+| Online vs. Offline | Whether the algorithm can sort data as it receives it (online) or requires all data to be present before sorting (offline). |
+| Sensitivity to Input Distribution | How much the algorithm's performance varies based on the characteristics of the input data. |
+| Comparison Efficiency | The number of comparisons the algorithm performs, which can be a key factor in its overall efficiency. |
+| Data Movement Efficiency | The number of swaps or data movements required, which can significantly impact performance, especially for large data elements. |
+---
+
+_Understanding these characteristics allows developers and computer scientists to make informed decisions about which algorithm to use in different situations, optimize existing algorithms, or even develop new ones for specific use cases_. For example:
+
+- If memory is constrained, you might prioritize in-place algorithms.
+- If you're dealing with nearly-sorted data, an adaptive algorithm could be more efficient.
+- If you need to sort based on multiple criteria, a stable sort would be crucial.
+ 
+---
+
+
+### Stability in Sorting Algorithms
+
+|Aspect|Stable Algorithm|Unstable Algorithm|
+|------|-----------------|------------------|
+|Definition|Maintains the relative order of elements with equal values after sorting.|Does not guarantee that equal elements will retain their original relative order.|
+|Example|Sorting `[(3, 'A'), (1, 'B'), (3, 'C')]` results in `[(1, 'B'), (3, 'A'), (3, 'C')]`.|Sorting `[(3, 'A'), (1, 'B'), (3, 'C')]` might result in `[(1, 'B'), (3, 'C'), (3, 'A')]`.|
+|Importance|Crucial for multi-key sorting and maintaining data integrity.|Less critical when sorting based on a single key or when relative order doesn't matter.|
+|Real-World Applications|Database management, lexicographical sorting.|General sorting where relative order is not important.|
+|Examples|Merge Sort, Bubble Sort, Insertion Sort.|Quick Sort, Heap Sort.|
+|Time Complexity|Merge Sort: O(n log n), Bubble Sort: O(n²), Insertion Sort: O(n²).|Quick Sort: O(n log n) average, O(n²) worst-case, Heap Sort: O(n log n).|
+
+---
+
+### In-place Sorting
+
+In-place sorting algorithms sort the elements within the original array without requiring significant additional memory.
+
+Imagine: Organizing a bookshelf without using another shelf or table.
+
+Benefits:  _Memory efficiency_ and _Cache performance_.
+
+Examples of in-place sorting algorithms:
+  - Bubble Sort
+  - Selection Sort
+  - Insertion Sort
+  - Heapsort
+  - Quicksort (in its typical implementation)
+
+Non-in-place sorting algorithm example:
+    - Merge Sort (requires O(n) additional space)
+
+---
+## Advanced Sorting Algorithms
+
+#### Merge Sort: Overview & Key Features
+Merge Sort is a **Divide and Conquer** sorting algorithm that:
+- **Divides** the array into two halves.
+- **Recursively sorts** each half.
+- **Merges** the sorted halves back together.  
+It follows a **top-down recursive approach** and ensures sorting stability.
+#### <iframe width="300" height="150" src="https://www.youtube.com/embed/-3u1C1URNZY?si=m2osjt_m9N-IfWUW&start=10&end=331&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> ~.~
+
+_Key Features_: 
+- **Time Complexity:** O(n log n) in all cases.
+- **Space Complexity:** O(n) due to extra arrays used for merging.
+- **Stable Sort:** Maintains order of equal elements.
+- **Good for Large Data:** Preferred when stability is required.
+- **Not In-Place:** Requires additional memory.
+
+---
+#### Quicksort: The Most Widely Used Sorting Algorithm
+QuickSort is a **divide-and-conquer** algorithm that works by selecting a **pivot** element and partitioning the array into two subarrays:
+- Elements **less than** the pivot.
+- Elements **greater than** the pivot.  
+It then recursively sorts the subarrays.  
+
+_Key Features_:  
+- **In-place**: Doesn’t require additional memory (except for recursion stack).
+- **Unstable**: May change the relative order of equal elements.
+- **Efficient**: Average-case time complexity of **O(n log n)**.
+
+Quicksort is often considered the most commonly used sorting algorithm in practice due to its excellent average-case performance and efficiency.
+
+_Analogy_: Think of Quicksort as organizing a messy closet. You pick an item (pivot), put everything smaller on one side, larger on the other, and then recursively organize each side.
+
+~.~
+---
+#### Heap Sort: Overview & Key Features
+Heap Sort is a **comparison-based sorting algorithm** that:
+1. **Uses a binary heap structure** to sort elements.
+2. **Builds a max heap** from the input array.
+3. **Extracts the largest element** (root of the heap) and places it at the end.
+4. **Maintains the heap property** and repeats until sorted.
+
+It is an **in-place sorting algorithm** with a time complexity of **O(n log n)** in all cases.  
+
+
+_Key Features_:
+- **Time Complexity:** O(n log n) for all the cases
+- **Space Complexity:** O(1) (in-place sorting, does not require extra memory)
+- **Not Stable:** Does not preserve the relative order of equal elements.
+- **Efficient for Large Datasets:** Performs well when memory constraints are important.
+- **Not Adaptive:** Does not benefit from partially sorted input.
+- **Used in:** Priority queues, Operating systems (CPU scheduling, memory management), Graph algorithms (Dijkstra's shortest path)
+
+---
+
+### **What is a Heap?**
+A **heap** is a special **binary tree** where:
+- It is a **complete binary tree** (all levels are fully filled except possibly the last level, which is filled from left to right).
+- Each parent node follows the **heap property**:
+    - **Max Heap**: Parent node is **greater than or equal to** its children.
+    - **Min Heap**: Parent node is **less than or equal to** its children.
+
+**Example of a Max Heap:**
+```
+        50
+       /  \
+      30   40
+     /  \  /  \
+    10  5 20  35
+```
+Here, every parent node is **greater than its children**.
+
+
+---
+#### **How Heap Sort Works (Step-by-Step)**
+1. **Build a Max Heap** from the input array (largest value at the root).
+2. **Extract the Root (Max Value):** Swap it with the last element.
+3. **Heapify the Remaining Elements:** Maintain the heap property.
+4. **Repeat Until Sorted.**
+
+---
+
+### **Understanding Heapify**
+**Heapify** is the process of maintaining the **heap property** after inserting or removing elements.  
+**Initial Array:** `[4, 10, 3, 5, 1]`
+
+Convert into a **binary tree representation** (before heapify): For a node at index **i**:
+- **Left child:** $\(2 * i + 1)\$
+- **Right child:** $\(2 * i + 2)\$
+- **Parent:** $\((i - 1) / 2)\$
+
+```
+        4
+       / \
+      10   3    <-- Last non-leaf node
+     /  \
+    5    1
+```
+_We **start heapify from the last non-leaf node**, not the root. **heapify is applied bottom-up**._
+1. **Find the Last Non-Leaf Node**
+   - Formula: `Last Non-Leaf Node = n/2 - 1`
+     <br/>Here, `n = 5`, so **Last Non-Leaf Node = 5/2 - 1 = 1 (Index 1)**
+     <br>**Node at index 1 is `10`**.
+   
+2. **Apply Heapify on Last Non-Leaf Node (Index 1)**
+   - **Children:** `5` and `1`
+   - `10` is already greater than both children → **No changes needed**.
+
+3. **Move to the Root (Index 0)** 
+   - **Children:** `10` and `3`
+   - **10 is greater than 4** → **Swap 4 and 10**.
+
+After Swap:
+```
+        10
+       /  \
+      4    3
+     /  \
+    5    1
+```
+Now, the **Max Heap property is maintained**.
+
+~.~
+---
+### Quicksort vs. Mergesort vs. Heapsort
+
+Let's compare Quicksort with Mergesort and Heapsort:
+
+
+| Characteristic | Quicksort | Mergesort | Heapsort |
+|----------------|-----------|-----------|----------|
+| Time Complexity (Average) | O(n log n) | O(n log n) | O(n log n) |
+| Time Complexity (Worst) | O(n²) | O(n log n) | O(n log n) |
+| Space Complexity | O(log n) | O(n) | O(1) |
+| Stability | Not stable | Stable | Not stable |
+| In-place | Yes (in-place partition) | No (requires additional space) | Yes |
+| Adaptive | Can be (with optimizations) | Yes | No |
+| Method | Partitioning | Divide and Conquer | Selection |
+| Cache Performance | Good | Poor | Poor |
+| Parallelization | Difficult | Easy | Difficult |
+
+---
+__Key Differences:__
+1. _Performance_: Quicksort is often faster in practice due to better cache performance and fewer data movements.
+2. _Worst-case scenario_: Mergesort and Heapsort provide a guaranteed worst-case performance of O(n log n), while Quicksort can degrade to O(n²).
+3. _Memory usage_: Heapsort sorts in-place with O(1) extra space, Quicksort uses O(log n) for the recursion stack, and Mergesort typically requires O(n) additional space.
+4. _Stability_: Mergesort is stable, maintaining the relative order of equal elements. Quicksort and Heapsort are not inherently stable.
+5. _Adaptivity_: Mergesort is naturally adaptive, and Quicksort can be made adaptive with optimizations. Heapsort is not adaptive.
+6. _Predictability_: Mergesort and Heapsort have more consistent performance across different input distributions, while Quicksort's performance can vary.
+7. _Parallelization_: Mergesort is easier to parallelize efficiently compared to Quicksort and Heapsort.
+8. _Implementation complexity_: Quicksort is generally considered the most complex to implement correctly, especially for an optimized version.
+9. _Cache performance_: Quicksort typically has better cache performance due to its localized comparisons, while Mergesort and Heapsort often have poor cache performance.
+10. _Sensitivity to input distribution_: Quicksort's performance is more sensitive to the input distribution, while Mergesort and Heapsort are more consistent.
+
+---
+
+### Why is Quicksort so popular?
+Java's `Arrays.sort()` uses a dual-pivot Quicksort for primitive types and a modified Mergesort for object types.
+
+1. Excellent average-case performance of O(n log n).
+2. In-place sorting, which means it requires little additional memory.
+3. Good cache performance due to its locality of reference.
+4. Highly adaptive - performs well on many types of input data.
+
+---
+
+### **Real-World Applications of Sorting Algorithms**
+
+#### **1. Database Indexing & Searching**
+- Sorting is crucial for **faster query execution** in databases.
+- Example: **B-Trees and Binary Search Trees (BSTs)** store sorted data for efficient lookup.
+---- 
+#### **2. Operating System Scheduling**
+- **CPU scheduling** algorithms use sorting to decide execution order.
+- Example: Shortest Job First (SJF) scheduling sorts processes by execution time.
+---- 
+#### **3. E-commerce & Search Ranking**
+- Online marketplaces use sorting for **price, popularity, or relevance**.
+- Example: Amazon sorts products by ratings and user reviews.
+---- 
+#### **4. Network Routing & Traffic Management**
+- Sorting optimizes **routing algorithms** for fast data transmission.
+- Example: **Dijkstra’s Algorithm** sorts network nodes for shortest paths.
+---- 
+#### **5. Data Compression & Encoding**
+- Sorting is a key step in **Huffman Coding**, used in file compression.
+- Example: **ZIP files and JPEG image compression** utilize sorting to optimize storage.
+---- 
+#### **6. Financial & Stock Market Analysis**
+- Sorting is used in **high-frequency trading** to rank stock prices.
+- Example: Stock exchanges sort and process financial data in real time.
+---
+
+### **Real-World Algorithms in Action**
+
+Here are a few fascinating algorithms that power modern technology:
+
+1. **Matrix Multiplication (O(n³))**
+    - **Purpose**: Used in computer graphics, machine learning, and scientific computing.
+    - **Example**: Powers neural networks (e.g., GPT models) and 3D rendering.
+
+2. **Floyd-Warshall Algorithm (O(n³))**
+    - **Purpose**: Finds shortest paths between all pairs of nodes in a graph.
+    - **Example**: Used in GPS navigation and social network analysis.
+
+3. **Google PageRank (O(n³))**
+    - **Purpose**: Ranks web pages based on link importance.
+    - **Example**: Powers Google Search and recommendation systems.
+
+4. **K-Means Clustering (O(nkt))**
+    - **Purpose**: Groups data into clusters based on similarity.
+    - **Example**: Used in customer segmentation and image compression.
+
+5. **Gradient Descent**
+    - **Purpose**: Optimizes machine learning models by minimizing error.
+    - **Example**: Trains neural networks (e.g., GPT, image recognition).
+
+6. **Self-Attention Mechanism**
+    - **Purpose**: Captures relationships between words in sentences.
+    - **Example**: Powers GPT models, language translation, and summarization tools.
+
+### **Why These Matter**
+- These algorithms are foundational to technologies we use daily, from search engines to AI models.
+- Despite their complexity, they solve real-world problems efficiently.
+
+---
+
+#### All Sorting Algorithms
+
+1. **Bubble Sort**: Repeatedly swaps adjacent elements if they are in the wrong order.
+2. **Selection Sort**: Selects the smallest (or largest) element from the unsorted portion and moves it to its correct position.
+3. **Insertion Sort**: Builds a sorted array one element at a time by comparing and inserting elements into their correct position.
+4. **Merge Sort**: Recursively divides the array in half, sorts the halves, and merges them back together.
+5. **Quick Sort**: Selects a pivot, partitions the array around the pivot, and recursively sorts the partitions.
+6. **Heap Sort**: Utilizes a heap data structure to sort an array by repeatedly extracting the maximum or minimum element.
+7. **Shell Sort**: A variation of insertion sort that allows the exchange of far-apart elements to improve performance.
+8. **Radix Sort**: Sorts numbers by processing individual digits, starting from the least significant digit to the most significant.
+9. **Counting Sort**: Sorts by counting the number of occurrences of each unique element and then arranging them in sorted order.
+10. **Bucket Sort**: Divides elements into buckets, sorts each bucket, and then concatenates the buckets.
+11. **Comb Sort**: An improvement of bubble sort that eliminates turtles, or small values near the end of the list, by using a gap sequence.
+12. **Pigeonhole Sort**: Sorts by distributing elements into pigeonholes (buckets) based on their key value.
+13. **Tim Sort**: A hybrid sorting algorithm derived from merge and insertion sort, used in Python’s and Java’s built-in sort.
+14. **Cocktail Shaker Sort**: A bidirectional bubble sort that sorts in both directions in each pass through the array.
+15. **Gnome Sort**: Similar to insertion sort but shifts elements as needed by moving one step backward or forward.
+16. **Cycle Sort**: An in-place, non-comparative algorithm that finds the cycle of elements to be put in their correct positions.
+17. **Odd-Even Sort**: A parallel variation of bubble sort that compares and swaps elements in alternating even and odd indexed pairs.
+18. **Bitonic Sort**: A parallel algorithm that sorts by creating bitonic sequences and then merging them into a sorted sequence.
+19. **Strand Sort**: A recursive algorithm that repeatedly extracts sorted subsequences (strands) and merges them.
+20. **Bogo Sort**: A highly inefficient algorithm that randomly shuffles the list until it happens to be sorted.
+21. **Patience Sort**: Based on a card game, it forms piles of elements and merges them in sorted order.
+22. **Tree Sort**: Inserts elements into a binary search tree and performs an in-order traversal to produce a sorted list.
+23. **Smooth Sort**: A variation of heap sort that adapts to already sorted data by using Leonardo heaps.
+24. **Stooge Sort**: A recursive algorithm that swaps elements based on comparing one-third and two-thirds of the list.
+25. **Pancake Sort**: Sorts by flipping subarrays (like flipping pancakes) to place the largest element in its correct position.
+
+---
+
+#### All Searching Algorithms
+
+1. **Linear Search**: Sequentially checks each element in a list until the desired element is found or the list ends.
+2. **Binary Search**: Repeatedly divides a sorted array in half to locate a target value.
+3. **Jump Search**: Jumps ahead by fixed steps in a sorted array and then performs a linear search within a smaller range.
+4. **Exponential Search**: Searches for a range using exponential jumps and then performs binary search within that range.
+5. **Interpolation Search**: Similar to binary search but estimates the position of the target based on the distribution of values.
+6. **Ternary Search**: Similar to binary search but divides the array into three parts instead of two.
+7. **Depth-First Search (DFS)**: Traverses as deep as possible along branches of a graph or tree before backtracking.
+8. **Breadth-First Search (BFS)**: Explores all nodes at the present depth before moving on to nodes at the next depth level in a graph or tree.
+9. **Fibonacci Search**: A variation of binary search that divides the array using Fibonacci numbers.
+10. **Sublist Search**: Searches for a sublist pattern within a larger linked list.
+11. **Jump Point Search**: Optimizes A* search for grids by skipping certain nodes, speeding up the process.
+12. **Uniform Cost Search**: A variant of BFS that explores nodes in order of increasing path cost.
+13. **A* Search**: Combines uniform cost search and heuristic search to find the shortest path in a graph.
+14. **Best-First Search**: Expands the most promising node based on a specific rule or heuristic.
+15. **Hill Climbing Search**: A variant of DFS that uses a heuristic to always move towards the goal node.
+16. **Bidirectional Search**: Runs two simultaneous searches—one forward from the start and one backward from the goal—until the two searches meet.
+17. **Hashing Search**: Uses hash tables for constant-time search by computing a key's hash to access the desired element directly.
+18. **Knuth-Morris-Pratt (KMP) Algorithm**: Searches for substrings within text using preprocessing of the pattern to allow skipping over unnecessary comparisons.
+19. **Boyer-Moore Search**: Efficient string-searching algorithm that skips sections of the text to speed up pattern matching.
+20. **Rabin-Karp Search**: Uses hashing to find a pattern in a string, particularly useful for multiple pattern matching.
+21. **Binary Tree Search**: Uses a binary search tree (BST) to efficiently search for elements in logarithmic time.
+22. **AVL Tree Search**: Similar to binary tree search but with a self-balancing binary search tree to maintain efficient search performance.
+23. **Red-Black Tree Search**: Searches in a balanced binary search tree where nodes maintain an additional red/black property.
+24. **Sequential Search (Linked List)**: Sequentially traverses nodes in a linked list until the desired value is found.
+25. **Trie Search**: Searches in a tree-like data structure used for efficient retrieval of keys, particularly in text-based searches.
+---
+
+### Knowledge Check http://quiz.codewithme.com/
+### ![img.png](assets/img.png)
+
+#### Additional Resources
+- Visualization tool for sorting algorithms: https://visualgo.net/en/sorting. 
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-5/slides.md"],"static":"../cocs-2436-slides/week-5","static-dirs":"week-5/assets","staticDirs":"week-5/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
