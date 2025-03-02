@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 6: Generics
+#### Objectives
+
+- Understand what generics are and why they are used
+- Learn how to define and use generic classes and methods
+- Explore built-in generic classes in Java
+- Implement a real-world use case using generics
+
+---
+
+### What are Generics?
+
+- Generics allow you to write flexible, reusable code that can operate on different types.
+- A feature that allows classes, interfaces, and methods to operate with types as parameters
+
+---
+
+### Why Use Generics?
+- **Type Safety**: Errors are caught at compile time, not runtime
+- **Elimination of Casting**: No need for explicit type casting
+- **Code Reusability**: Implement algorithms once, use with different types
+- **Performance**: No boxing/unboxing overhead for primitive types
+
+---
+
+### Writing a Generic Class
+#### Without Generics, With Generics
+
+```java
+public class Box<T> {
+    private T content;
+    
+    public void setContent(T content) {
+        this.content = content;
+    }
+    
+    public T getContent() {
+        return content;
+    }
+}
+```
+~.~
+
+#### Generic Class Syntax
+- Use angle brackets `<T>` to denote type parameters
+- Convention: use single uppercase letters for type parameters
+- T (Type), E (Element), K (Key), V (Value), N (Number)
+~.~
+---
+
+#### Built-in Generic Classes
+
+**List**
+```java
+List<String> stringList = new ArrayList<>();
+stringList.add("Hello");
+String str = stringList.get(0);
+```
+**Map**
+
+```java
+Map<Integer, String> map = new HashMap<>();
+map.put(1, "One");
+String value = map.get(1);
+```
+
+---
+### Advanced Concepts
+
+#### Bounded Type Parameters
+
+```java
+public class NumberBox<T extends Number> {
+    private T number;
+
+    public NumberBox(T number) {
+        this.number = number;
+    }
+
+    public T getNumber() {
+        return number;
+    }
+}
+```
+---
+
+#### Generic Methods, That Accept Generic Class Objects
+
+```java
+public class Utility {
+    public static <T> void printArray(T[] array) {
+      for (T element : array) {
+        System.out.println(element);
+      }
+    }
+}
+```
+---
+#### Generic Interfaces
+
+```java
+// Generic interface
+public interface Comparable<T> {
+    int compareTo(T other);
+}
+
+// Implementation of a generic interface
+public class Person implements Comparable<Person> {
+    private String name;
+    private int age;
+    
+    
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age);
+    }
+}
+```
+---
+
+### Type Erasure in Java Generics 
+
+Type erasure is a process in Java where _generic type parameters are removed at compile-time_, meaning that generics _do not exist at runtime_. The compiler replaces the generic types with their _upper bound (or Object if no bound is specified)_
+- The process by which the compiler removes generic type information during compilation
+- At runtime, generic types are replaced with their bounds or Object
+- The bytecode contains no information about generic types
+  
+---
+
+#### Example of Erasure
+
+```java
+// During compilation:
+public class Box<T> {
+    private T value;
+    public T get() { return value; }
+    public void set(T value) { this.value = value; }
+}
+
+// After erasure (bytecode):
+public class Box {
+    private Object value;
+    public Object get() { return value; }
+    public void set(Object value) { this.value = value; }
+}
+```
+
+#### Erasure with Bounded Types
+
+```java
+// During compilation:
+public class NumericBox<T extends Number> {
+    private T value;
+    public T get() { return value; }
+    public void set(T value) { this.value = value; }
+}
+
+// After erasure (bytecode):
+public class NumericBox {
+    private Number value;
+    public Number get() { return value; }
+    public void set(Number value) { this.value = value; }
+}
+```
+---
+
+#### Consequences of Erasure
+- Cannot overload methods that would have the same erasure
+- Cannot create arrays of a generic type
+- Cannot use instanceof with generic types
+- Static fields are shared across all instances regardless of type parameter
+
+---
+
+#### Cannot Use Primitive Types as Type Arguments
+
+```java
+// Error: Cannot use primitive type int as type argument
+List<int> numbers;  // Compile-time error
+
+// Use wrapper classes instead
+List<Integer> numbers = new ArrayList<>();
+```
+
+---
+
+#### Cannot Use static Fields of Type Parameters
+
+```java
+public class Counter<T> {
+    // Error: Cannot make a static reference to the non-static type T
+    private static T defaultValue;  // Compile-time error
+    
+    // This is OK
+    private static int count = 0;
+}
+```
+---
+### EXAM I
+
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["week-6/slides.md"],"static":"../cocs-2436-slides/week-6","static-dirs":"week-6/assets","staticDirs":"week-6/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
