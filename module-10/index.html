@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Week 10: Trees and Binary Trees  
+
+#### Objectives
+
+1. Understand Tree fundamentals and concepts
+2. Understand binary trees and different types of binary trees
+3. Explore basic operations on binary trees
+4. Introduce heap data structures and understand their properties
+5. Conceptually understand priority queues and their relationship to heaps
+
+---
+
+## Introduction to Trees
+
+- Hierarchical data structure
+- Nodes connected by edges
+- One root node
+- No cycles allowed
+- Each node can have multiple children
+
+![img_3.png](assets/tree.png)
+
+---
+
+## Why Trees?
+
+- Natural hierarchical representation
+- Efficient searching and sorting
+- File systems
+- Organization charts
+- Family trees
+- XML/HTML DOM
+- AI Decision Trees
+
+---
+
+##  Real-world Examples
+
+| ![img_6.png](assets/files.png) | ![img_3.png](assets/decision.png) |
+|--------------------------------|-----------------------------------|
+| ![img_4.png](assets/org.png)   | ![img_1.png](assets/family.png)   |
+
+---
+
+## Basic Tree Terminology
+
+![img.png](assets/img.png)
+
+~.~
+---
+
+## What is a Binary Tree?
+
+- Special tree where each node has 0, or 1 or at most 2 children
+- Children designated as left and right
+- More structured than general trees
+
+![img_1.png](assets/img_1.png)
+
+---
+
+## Types of Binary Trees
+
+
+1. Complete Binary Tree
+   - All levels filled except last
+   - Last level filled left to right
+   ```
+         A          
+        / \
+       B   C
+      / \
+     D   E
+   
+   ```
+2. Full Binary Tree
+    - Each node has 0 or 2 children
+   ```
+         A
+        / \
+       B   C
+      / \
+     D   E
+   ```
+
+3. Perfect Binary Tree
+   - All levels completely filled
+   ```
+       A
+     /   \
+    B     C
+   / \   / \
+   D  E F   G
+
+   ```
+4. Balanced Binary Tree
+   - Height of left and right subtrees differ by at most one
+   
+   ```
+         A
+        / \
+       B   C
+      / \  / \
+     D  E F   G
+         /
+        H
+   ```
+
+---
+
+## Binary Tree Representation
+
+1. Array representation:
+   - For a node at index i:
+      - Left child: 2i + 1
+      - Right child: 2i + 2
+      - Parent: (i - 1) / 2 (integer division)
+
+2. Linked representation:
+
+```java
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    public Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+```
+~.~
+
+---
+
+## Binary Tree Operations
+1. Insertion: Add new node
+2. Deletion: Remove node
+3. Traversal: Visit all nodes
+4. Search: Find specific node
+
+---
+
+## Binary Tree Implementation
+
+```
+        CEO(A)
+       /      \
+    VP(B)     VP(C)
+   /   \        \
+MGR(D) MGR(E)  MGR(F)
+
+```
+~.~
+
+---
+
+## Binary Tree Traversals
+
+- **Preorder Traversal**: Root, Left, Right
+- **Inorder Traversal**: Left, Root, Right
+- **Postorder Traversal**: Left, Right, Root
+- **Level Order Traversal**: Level by level from top to bottom
+
+```java
+// Recursive Inorder traversal
+void inOrder(Node node) {
+    if (node == null) return;
+    inOrder(node.left);      // Traverse left
+    System.out.print(node.value + " "); // Process node
+    inOrder(node.right);     // Traverse right
+}
+```
+![traversals](assets/traversals.png)
+
+
+---
+
+## Common Applications of Binary Trees
+1. [Expression trees](https://en.wikipedia.org/wiki/Binary_expression_tree) in compilers
+2. [Huffman coding trees in data compression](https://www.youtube.com/watch?v=21_bJLB7gyU&t=68s)
+3. **Binary Search Trees (BST) for efficient searching and sorting**
+4. Priority Queues and Heaps
+5. [Decision trees in machine learning](https://youtu.be/JcI5E2Ng6r4)
+
+---
+
+## Introduction to Heap Data Structure
+
+- A binary tree with two special properties:
+    1. **Structure Property**: Complete binary tree
+    2. **Heap Property**:
+        - **Max Heap**: Parent key ≥ children keys
+        - **Min Heap**: Parent key ≤ children keys
+
+![heap_example](assets/heap.png)
+
+---
+
+## Max Heap vs Min Heap
+
+| Max Heap | Min Heap |
+|----------|----------|
+| Root contains maximum value | Root contains minimum value |
+| For any node N, value(parent(N)) ≥ value(N) | For any node N, value(parent(N)) ≤ value(N) |
+
+---
+
+## Heap Representation
+
+- Typically implemented as an array
+- For node at index i:
+    - Parent: (i-1)/2
+    - Left child: 2*i+1
+    - Right child: 2*i+2
+
+---
+
+## Heaps: Key Operations (Conceptual)
+
+1. **Insert**: Add new element and restore heap property
+2. **Extract**: Remove root element and restore heap property
+3. **Heapify**: Convert an array into a valid heap
+
+*Detailed implementation will be covered next week*
+
+---
+
+## Introduction to Priority Queues
+
+- Abstract data type similar to queues
+- Each element has a "priority"
+- Higher priority elements are served before lower priority elements
+- Operations: insert, delete, peek, isEmpty
+
+---
+
+## Heaps for Priority Queues
+
+- Natural implementation for priority queues
+- Efficient operations:
+    - Insert: O(log n)
+    - Extract maximum/minimum: O(log n)
+    - Peek maximum/minimum: O(1)
+
+| Priority Queue Operation | Corresponding Heap Operation |
+|--------------------------|------------------------------|
+| Insert with priority | Insert into heap |
+| Get highest priority item | Peek at root |
+| Remove highest priority item | Extract root |
+
+---
+
+## Applications of Heaps and Priority Queues
+
+- Dijkstra's shortest path algorithm
+- Prim's minimum spanning tree algorithm
+- Huffman coding (data compression)
+- Task scheduling in operating systems
+- Event-driven simulation
+- Media streaming
+
+---
+
+## Knowledge Check 
+### https://quiz.codewithme.com/
+
+---
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["module-10/slides.md"],"static":"../cocs-2436-slides/module-10","static-dirs":"module-10/assets","staticDirs":"module-10/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
