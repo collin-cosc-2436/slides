@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Collin:COCS-2436</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/monokai.css" />
+
+    <link rel="stylesheet" href="./assets/reveal.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="\r?\n----\r?\n">
+          <textarea data-template>
+            # Priority Queue and Binary Search Trees BST
+
+## Objectives
+
+1. Priority Queues: Concepts, Implementation, and Applications
+2. Understand Binary Search Trees (BST) and its operations
+3. Compare BST with other data structures in terms of structure and performance
+4. Practice Implementation: Node and tree classes, Real-world applications
+
+---
+## What is a Priority Queue?
+
+A data structure where each element has a priority, and the element with the highest (or lowest) priority is served first.  
+        - Abstract data type similar to a regular queue  
+        - Each element has a "priority" associated with it  
+        - Elements with higher priority are dequeued before elements with lower priority  
+        - If two elements have the same priority, they are served according to their order in the queue  
+        - Min Priority Queue → smallest element removed first  
+        - Max Priority Queue → largest element removed first  
+
+<u>Priority Queue vs Queue</u>
+
+| Queue         | Priority Queue      |
+|---------------|---------------------|
+| FIFO          | Based on priority  |
+| No order changes | Order may change   |
+
+---
+
+## Priority Queue Operations
+
+1. **insert(item, priority)**: Adds an item with given priority
+2. **deleteMax()** or **deleteMin()** or remove() or poll() or extract(): Removes and returns the highest/lowest priority item
+3. **peek()**: Returns the highest/lowest priority item without removing it
+4. **isEmpty()**: Checks if the priority queue is empty  
+~.~
+---
+
+### Priority Queue Implementations
+
+| Implementation | insert | deleteMax/Min | peek |
+|----------------|--------|---------------|------|
+| Unordered Array/List | O(1) | O(n) | O(n) |
+| Ordered Array/List | O(n) | O(1) | O(1) |
+| Binary Heap | O(log n) | O(log n) | O(1) |
+| Binary Search Tree | O(log n) | O(log n) | O(log n) |
+
+---
+
+### Binary Heap Implementation
+
+- Most efficient implementation for priority queues
+  - Complete binary tree structure
+    - Max-heap: parent > children (for max priority queue)
+    - Min-heap: parent < children (for min priority queue)
+    
+    ~.~
+    
+      ```
+                    Max Heap                  Min Heap  
+                      100                        10      
+                     /   \                      /   \    
+                    80    90                  15     20
+                   /  \   /                  /  \   /
+                  30  20 75                 30  40 25
+      ```   
+
+---
+
+### Heap Operations: Insert
+
+1. Add the element at the bottom-most, rightmost position
+2. "Bubble up" (heapify up) the element to maintain heap property
+
+```
+Insert 95 into Max Heap:
+
+                        100                    100
+                       /   \                  /   \
+                     80     90      -->     80     90
+                    / \    /                / \    / \
+                  30  20  75              30  20  75  95
+
+Then bubble up 95:
+                    100                    100
+                   /   \                  /   \
+                 80     90      -->     80     95
+                / \    / \              / \    / \
+              30  20  75  95           30  20 75  90
+```
+---
+### Heap Operations: Delete
+1. Remove the root element (highest priority)
+2. Replace it with the last element in the heap
+3. "Bubble down" (heapify down) the element to maintain heap property
+
+```
+DeleteMax from Max Heap:
+                    100                     75
+                   /   \                   /  \
+                 80     90      -->      80    90
+                / \    /                / \
+              30  20  75              30  20  
+  
+Then bubble down 75:
+                     75                     90
+                    /  \                   /  \
+                  80    90      -->      80    75
+                 / \                     / \
+               30  20                   30  20  
+               
+```
+
+---
+
+### Applications of Priority Queue
+
+- [Dijkstra's Algorithm](https://www.youtube.com/watch?v=EFg3u_E6eHU): Finding shortest paths in a graph
+- Huffman Coding: Data compression
+- Prim's Algorithm: Minimum Spanning Tree
+- A* Search Algorithm: Path finding, AI
+- CPU Scheduling: Process scheduling based on priority
+- Event-driven simulation: Handling events based on time
+- Task scheduling: Managing tasks based on importance
+
+---
+
+### What is a Binary Search Tree (BST)?
+
+- A **binary tree** with additional ordering:
+  - Left child < Parent
+  - Right child > Parent
+- No duplicate elements
+
+```
+            
+  Regular Binary Tree (Valid)java 
+     5                         
+    / \                        
+   8   3                        
+  /                             
+ 9                               
+
+                          BST (Valid)                           10
+                              5                                /  \
+                            /   \                             5   15
+                           3     8                           / \    \
+                          / \   / \                         2   8    20
+                         1   4 6   9   
+                                             
+                                             
+                                              Not a BST (Invalid)     
+                                                  5                   
+                                                /   \                 
+                                              3     4                 
+                                             /     /                  
+                                            1     8        
+```
+
+---
+
+### Why Do We Need BST?
+
+- Efficient searching, insertion, deletion  
+- Better than arrays and linked lists for sorted data access  
+- No need to shift elements (unlike arrays)
+- Insertion and deletion maintain order automatically
+- Natural for Range Operations 
+- Foundation for advanced structures like AVL, Red-Black Trees, Treaps
+
+| Operation | Array | Linked List | BST (avg) | BST (worst) |
+|----------|-------|-------------|-----------|--------------|
+| Search   | O(log n) / O(n) | O(n) | O(log n) | O(n) |
+| Insert   | O(n)   | O(1)       | O(log n) | O(n) |
+| Delete   | O(n)   | O(1)       | O(log n) | O(n) |
+
+---
+
+### BST Core Operations
+
+- **Search**
+- **Insert**
+- **Delete**
+- **Traversal** (In-order, Pre-order, Post-order)
+
+---
+
+### Search in BST
+~.~
+```java
+boolean search(Node root, int key) {
+  if (root == null) return false;
+  if (key == root.data) return true;
+  return key < root.data
+      ? search(root.left, key)
+      : search(root.right, key);
+}
+```
+
+---
+
+### Insert in BST
+
+```java
+Node insert(Node root, int key) {
+  if (root == null) return new Node(key);
+  if (key < root.data)
+    root.left = insert(root.left, key);
+  else if (key > root.data)
+    root.right = insert(root.right, key);
+  return root;
+}
+```
+~.~
+
+---
+### Delete in BST.  
+In a BST, there are three main cases to consider when deleting a node: 
+
+Case 1: The node to delete is a **leaf node** (no children).   
+Case 2: The node to delete has **one child**.  
+Case 3: The node to delete has **two children**.  
+
+----   
+~.~
+#### Case 1: Deleting a Leaf Node (No Children)
+```
+                30
+               /  \
+             20    40
+
+Resulting Tree:
+
+        30
+          \
+           40
+```
+----   
+
+#### Case 2: Deleting a Node with One Child
+
+Consider deleting `30` from the following BST:
+```
+        30
+       /
+     20
+     
+Resulting Tree:
+
+       20
+```
+
+--- 
+
+#### Case 3: Deleting a Node with Two Children
+
+Consider deleting `50` from the following BST:
+```
+        50
+       /  \
+     30    70
+          /  \
+        60    80
+        
+Resulting Tree:
+
+    60
+   /  \
+ 30    70
+        \
+         80
+             
+```
+~.~
+
+---
+
+### Traversal Techniques
+
+- **In-order:** Left, Root, Right (Sorted Output)
+- **Pre-order:** Root, Left, Right
+- **Post-order:** Left, Right, Root
+
+```java
+void inorder(Node root) {
+  if (root != null) {
+    inorder(root.left);
+    System.out.print(root.data + " ");
+    inorder(root.right);
+  }
+}
+```
+
+---
+
+### Applications of BST
+
+- [Dictionaries](https://www.youtube.com/watch?v=Lh5TT33ROM8)
+- Database indexing
+- Auto-complete systems
+- Sorted data storage and retrieval
+
+---
+
+### Visualize BST Operations
+
+### [VisuAlgo BST](https://www.cs.usfca.edu/~galles/visualization/BST.html)
+
+- Insert and delete nodes
+- Watch how the tree changes
+- Observe traversal outputs
+
+---
+## Common BST Problems & Solutions
+
+Problem: BST Can Become Unbalanced, causing performance issues 
+- When data is inserted in sorted order, BST becomes like a linked list
+- Operations become O(n) instead of O(log n)
+
+```java
+// Example: Inserting sorted numbers
+BST tree = new BST();
+tree.insert(10);
+tree.insert(20);
+tree.insert(30);
+tree.insert(40);
+//
+// Results in:
+//   10
+//     \
+//      20
+//        \
+//         30
+//           \
+//           40
+
+// Now searching for 40 requires checking every node!
+
+// Good BST (Balanced)          
+//                                  
+//       20                         
+//      /  \                        
+//     10   30                      
+//    /  \    \                     
+//   5   15    40                   
+//                                  
+//                                  
+// Searching for 40:
+// Balanced: 3 steps (20→30→40)   
+// Unbalanced: 4 steps (10→20→30→40)
+```
+Solution: Self-balancing BSTs
+
+* <em>AVL Trees</em>, 
+* Red-Black Trees
+* Keep tree balanced automatically
+* Guarantee O(log n) operations
+
+```java
+// Example: After inserting 30,40,50
+// Before balancing:  
+//      30           
+//        \           
+//         40         
+//           \
+//           50
+//  After balancing:
+//       40         
+//     /   \        
+//   30     50      
+                 
+
+```
+
+---
+# Labs
+-----
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./mermaid/dist/mermaid.min.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        highlight: {
+          highlightOnLoad: false
+        },
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"slide","backgroundTransition":"slide","width":"100%","height":"100%","controls":true,"margin":0.1,"minScale":0.2,"maxScale":1.5,"_":["module-11/slides.md"],"static":"../cocs-2436-slides/module-11","static-dirs":"module-11/assets","staticDirs":"module-11/assets","title":"Collin:COCS-2436"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+      Reveal.addEventListener('ready', function (event) {
+        const blocks = Reveal.getRevealElement().querySelectorAll('pre code:not(.mermaid)');
+        const hlp = Reveal.getPlugin('highlight');
+        blocks.forEach(hlp.highlightBlock);
+      });
+    </script>
+
+    <script>
+      const mermaidOptions = extend({ startOnLoad: false }, {});
+      mermaid.startOnLoad = false;
+      mermaid.initialize(mermaidOptions);
+      const cb = function (event) {
+        mermaid.init(mermaidOptions, '.stack.present > .present pre code.mermaid');
+        mermaid.init(mermaidOptions, '.slides > .present:not(.stack) pre code.mermaid');
+      }
+      Reveal.addEventListener('ready', cb);
+      Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+  </body>
+</html>
